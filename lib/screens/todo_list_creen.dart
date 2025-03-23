@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'about_screen.dart';
+
 class TodoListScreen extends StatefulWidget {
   const TodoListScreen({Key? key}) : super(key: key);
 
@@ -34,6 +36,10 @@ class _TodoListScreenState extends State<TodoListScreen> {
                 : Colors.black54,
           ),
           onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AboutScreen()),
+            );
           },
         ),
         title: Row(
