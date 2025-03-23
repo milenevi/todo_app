@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import '../providers/todo_provider.dart';
+import '../widgets/todo_item.dart';
+import '../theme/theme_provider.dart';
+import '../theme/app_colors.dart';
 import 'about_screen.dart';
 
 class TodoListScreen extends StatefulWidget {
@@ -15,12 +19,50 @@ class _TodoListScreenState extends State<TodoListScreen> {
   @override
   void initState() {
     super.initState();
+    Future.microtask(
+            () => Provider.of<TodoProvider>(context, listen: false).fetchTodos());
   }
 
   @override
   void dispose() {
     _textController.dispose();
     super.dispose();
+  }
+
+  void _showAddTodoDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Add New Task'),
+        content: TextField(
+          controller: _textController,
+          decoration: const InputDecoration(
+            hintText: 'Enter task description',
+          ),
+          autofocus: true,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              _textController.clear();
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              if (_textController.text.isNotEmpty) {
+                Provider.of<TodoProvider>(context, listen: false)
+                    .addTodo(_textController.text);
+                Navigator.of(context).pop();
+                _textController.clear();
+              }
+            },
+            child: const Text('Add'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -68,17 +110,30 @@ class _TodoListScreenState extends State<TodoListScreen> {
         actions: [
           IconButton(
             icon: Icon(
-                Icons.light_mode
+              Provider.of<ThemeProvider>(context).isDarkMode
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white54
+                  : Colors.black54,
             ),
             onPressed: () {
-
+              Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
             },
           ),
         ],
       ),
-      body:
+      body: Consumer<TodoProvider>(
+        builder: (context, todoProvider, child) {
+          if (todoProvider.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-      Padding(
+          if (todoProvider.error != null) {
+            return Center(child: Text(todoProvider.error!));
+          }
+
+          return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
@@ -86,6 +141,9 @@ class _TodoListScreenState extends State<TodoListScreen> {
                   padding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   decoration: BoxDecoration(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.darkSecondary
+                        : AppColors.lightSecondary,
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Row(
@@ -112,7 +170,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
                             icon: const Icon(Icons.add, size: 20),
                             padding: EdgeInsets.zero,
                             constraints: const BoxConstraints(),
-                            onPressed: (){},
+                            onPressed: _showAddTodoDialog,
                             color: Colors.white,
                           ),
                         ),
@@ -133,7 +191,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
                 Expanded(
                   child: ListView(
                     children: [
-
+                      if (todoProvider.incompleteTodos.isNotEmpty) ...[
                         const Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
@@ -145,7 +203,10 @@ class _TodoListScreenState extends State<TodoListScreen> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        //incompleteTodos
+                        ...todoProvider.incompleteTodos
+                            .map((todo) => TodoItem(todo: todo)),
+                      ],
+                      if (todoProvider.completedTodos.isNotEmpty) ...[
                         const SizedBox(height: 16),
                         const Align(
                           alignment: Alignment.centerLeft,
@@ -158,13 +219,17 @@ class _TodoListScreenState extends State<TodoListScreen> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                       //completedTodos
+                        ...todoProvider.completedTodos
+                            .map((todo) => TodoItem(todo: todo)),
                       ],
+                    ],
                   ),
                 ),
               ],
             ),
-          )
+          );
+        },
+      ),
     );
   }
 }
