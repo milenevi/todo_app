@@ -1,4 +1,4 @@
-# todo_app# Todo App
+# Todo App
 
 Um aplicativo de gerenciamento de tarefas desenvolvido com Flutter. Este aplicativo permite que você crie, visualize, edite e exclua tarefas, além de marcar tarefas como concluídas.
 
