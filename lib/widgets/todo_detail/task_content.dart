@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/todo.dart';
 
 class TaskContent extends StatelessWidget {
-  final Todo todo;
+  final Todo? todo;
   final TextEditingController textController;
   final bool isEditing;
 
@@ -15,6 +15,10 @@ class TaskContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (todo == null) {
+      return const Center(child: Text('No task data available'));
+    }
+
     return isEditing
         ? TextField(
       controller: textController,
@@ -24,7 +28,7 @@ class TaskContent extends StatelessWidget {
       autofocus: true,
     )
         : Text(
-      todo.todo,
+      todo!.todo,
       style: Theme.of(context).textTheme.headlineSmall,
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../controllers/todo_detail_controller.dart';
+import '../widgets/todo_detail/delete_confirmation_dialog.dart';
 import '../widgets/todo_detail/detail_app_bar.dart';
 import '../widgets/todo_detail/loading_screen.dart';
 import '../widgets/todo_detail/status_row.dart';
@@ -27,7 +28,57 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
       context: context,
       todoId: widget.todoId,
     );
-    controller.loadTodo();
+    _loadTodo();
+  }
+
+  void _loadTodo() {
+    final success = controller.loadTodo();
+    if (!success) {
+      // Mostrar erro e voltar para a tela anterior
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Task not found'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      });
+    }
+  }
+
+  Future<void> _confirmDelete() async {
+    final shouldDelete = await DeleteConfirmationDialog.show(context);
+
+    if (shouldDelete == true) {
+      await _deleteTodo();
+    }
+  }
+
+  Future<void> _deleteTodo() async {
+    final success = await controller.deleteTodo();
+
+    if (!mounted) return;
+
+    if (success) {
+      // Mostrar mensagem de sucesso e voltar
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Task deleted successfully'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.of(context).pop();
+    } else {
+      // Mostrar erro
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error deleting task'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
@@ -52,7 +103,7 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
               appBar: DetailAppBar(
                 isEditing: isEditing,
                 onEditToggle: controller.toggleEdit,
-                onDelete: controller.confirmDelete,
+                onDelete: _confirmDelete,
               ),
               body: Padding(
                 padding: const EdgeInsets.all(16.0),
