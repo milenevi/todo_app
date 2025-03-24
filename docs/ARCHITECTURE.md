@@ -1,103 +1,236 @@
-# Arquitetura da Aplicação de Tarefas
 
-## Visão Geral da Arquitetura
+# Arquitetura do Todo App
 
-A aplicação foi estruturada seguindo os princípios de responsabilidade única e separação de preocupações. A arquitetura implementa um padrão híbrido que separa claramente a lógica de negócios do gerenciamento de estado. Uma separação clara de responsabilidades do (Clean) com um gerenciamento eficiente de estado do (MVVM).
+Este documento detalha a arquitetura do aplicativo, explicando cada camada e suas responsabilidades.
 
-Se o projeto crescer significativamente em complexidade, pode evoluir naturalmente para Clean Architecture pura, mas para o escopo atual, a abordagem híbrida oferece o melhor equilíbrio entre robustez e praticidade.
+## Visão Geral
 
-## Padrão de Gerenciamento de Estado
+O aplicativo segue uma arquitetura em camadas que separa claramente as responsabilidades e promove a manutenibilidade e testabilidade do código.
 
-### Componentes Principais
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     Presentation Layer                       │
+├─────────────────┬─────────────────────┬───────────────────┤
+│     Screens     │     Controllers     │     Providers      │
+│                 │                     │                    │
+│  TodoListScreen │ TodoDetailController│   TodoProvider    │
+│ TodoDetailScreen│                     │                    │
+└─────────────────┴─────────────────────┴───────────────────┘
+                           ▲
+                           │
+                           │
+┌─────────────────────────────────────────────────────────────┐
+│                       Domain Layer                           │
+├─────────────────┬─────────────────────┬───────────────────┤
+│     Models      │     Use Cases       │    Interfaces      │
+│                 │                     │                    │
+│      Todo       │   TodoUseCases     │  TodoRepository    │
+└─────────────────┴─────────────────────┴───────────────────┘
+```
 
-1. **TodoProvider**: Classe central para gerenciamento de estado
-   - Gerencia o estado completo da aplicação (tarefas, estado de carregamento, erros)
-   - Expõe getters para acessar os dados (tarefas completas, incompletas, etc.)
-   - Coordena as operações e atualiza o estado conforme necessário
+## Camadas
 
-2. **TodoOperations**: Encapsula a lógica de negócios
-   - Contém métodos puros que implementam as regras de negócio
-   - Recebe um estado e retorna um novo estado com as alterações
-   - Não possui estado interno ou efeitos colaterais
+### 1. Camada de Apresentação (Presentation Layer)
 
-3. **TodoRepository**: Abstrai o acesso a dados
-   - Provê acesso aos dados (API, banco de dados local, etc.)
-   - Desacopla a fonte de dados da lógica de negócio
+#### Screens
+- Responsável pela interface do usuário
+- Não contém lógica de negócio
+- Delega eventos para controllers/providers
+- Exemplo: `TodoListScreen`, `TodoDetailScreen`
 
-4. **TodoState**: Modelo imutável do estado
-   - Representa o estado completo da aplicação
-   - Possui getters para facilitar o acesso aos dados
-   - Implementa o padrão "copyWith" para atualizações imutáveis
+```dart
+class TodoDetailScreen extends StatefulWidget {
+  final int todoId;
+  
+  @override
+  State<TodoDetailScreen> createState() => _TodoDetailScreenState();
+}
+```
 
-5. **Controllers**: Gerenciam a lógica de UI específica
-   - Conectam a UI com a lógica de negócio
-   - Não contêm elementos de UI (SnackBars, diálogos, etc.)
-   - Retornam apenas resultados das operações
-   - Seguem o princípio de responsabilidade única
+#### Controllers
+- Gerencia o estado local da tela
+- Coordena interações entre widgets
+- Delega operações para casos de uso
+- Exemplo: `TodoDetailController`
 
-## Separação de Responsabilidades
+```dart
+class TodoDetailController extends ChangeNotifier {
+  final TodoUseCases _useCases;
+  final ValueNotifier<Todo?> _todo = ValueNotifier<Todo?>(null);
+  
+  Future<bool> updateTodo(BuildContext context, Todo todo) async {
+    // Implementação
+  }
+}
+```
 
-### Gerenciamento de Estado (TodoProvider)
-- Manter o estado atual da aplicação
-- Fornecer acesso aos dados através de getters
-- Notificar os widgets sobre mudanças no estado
-- Coordenar as operações entre diferentes componentes
+#### Providers
+- Gerencia estado global
+- Fornece acesso aos dados para widgets
+- Delega operações para casos de uso
+- Exemplo: `TodoProvider`
 
-### Lógica de Negócios (TodoOperations)
-- Implementar as regras de negócio
-- Validar as entradas e saídas
-- Transformar os dados conforme necessário
-- Não depender do framework (Flutter)
+```dart
+class TodoProvider extends ChangeNotifier {
+  final TodoUseCases _useCases;
+  List<Todo> get completedTodos => _todos.where((t) => t.completed).toList();
+}
+```
 
-### Acesso a Dados (TodoRepository)
-- Abstrair o acesso aos dados externos
-- Converter entre formatos de dados
-- Lidar com erros de comunicação
-- Cachear dados quando necessário
+### 2. Camada de Domínio (Domain Layer)
 
-### Controllers
-- Gerenciar o estado local da UI
-- Coordenar operações entre UI e lógica de negócio
-- Retornar resultados sem manipular UI diretamente
-- Evitar dependências de widgets específicos
+#### Models
+- Define as entidades do domínio
+- Contém regras de validação
+- Imutável e independente de frameworks
+- Exemplo: `Todo`
 
-### UI (Screens e Widgets)
-- Renderizar a interface do usuário
-- Gerenciar feedback visual (SnackBars, diálogos)
-- Controlar navegação
-- Verificar estado de montagem (mounted) em operações assíncronas
+```dart
+class Todo {
+  final int id;
+  final String todo;
+  final bool completed;
+  
+  Todo copyWith({bool? completed}) {
+    return Todo(
+      id: id,
+      todo: todo,
+      completed: completed ?? this.completed,
+    );
+  }
+}
+```
+
+#### Use Cases
+- Implementa regras de negócio
+- Orquestra fluxo de dados
+- Independente de UI
+- Exemplo: `TodoUseCases`
+
+```dart
+class TodoUseCases {
+  final TodoRepository _repository;
+  
+  Future<Todo> updateTodo(Todo todo) async {
+    // Implementação
+  }
+}
+```
+
+#### Interfaces
+- Define contratos para camadas externas
+- Permite inversão de dependência
+- Exemplo: `TodoRepository` (interface)
+
+```dart
+abstract class TodoRepository {
+  Future<List<Todo>> getTodos();
+  Future<Todo> getTodoById(int id);
+}
+```
+
+### 3. Camada de Dados (Data Layer)
+
+#### Repository
+- Implementa interfaces do domínio
+- Coordena fontes de dados
+- Mapeia DTOs para modelos
+- Exemplo: `TodoRepositoryImpl`
+
+```dart
+class TodoRepositoryImpl implements TodoRepository {
+  final TodoService _service;
+  
+  Future<Todo> getTodoById(int id) async {
+    // Implementação
+  }
+}
+```
+
+#### Services
+- Implementa comunicação com APIs
+- Gerencia cache e persistência
+- Lida com erros de rede
+- Exemplo: `TodoService`
+
+```dart
+class TodoService {
+  final http.Client _client;
+  
+  Future<TodoDTO> getTodoById(int id) async {
+    // Implementação
+  }
+}
+```
 
 ## Fluxo de Dados
 
-1. A UI solicita uma operação ao Controller
-2. O Controller coordena com o TodoProvider
-3. O TodoProvider obtém os dados necessários do TodoRepository
-4. O TodoProvider chama o método adequado no TodoOperations
-5. O TodoOperations aplica a lógica de negócio e retorna um novo estado
-6. O TodoProvider atualiza seu estado interno e notifica seus ouvintes
-7. O Controller recebe o resultado e a UI decide como apresentá-lo
+1. **UI Event** → Widget dispara evento
+2. **Controller/Provider** → Processa evento
+3. **Use Case** → Executa regra de negócio
+4. **Repository** → Acessa dados
+5. **Service** → Comunica com API
+6. **Repository** → Mapeia resposta
+7. **Use Case** → Valida dados
+8. **Controller/Provider** → Atualiza estado
+9. **UI** → Reflete mudanças
 
-## Boas Práticas
+## Testes
 
-1. **Separação de UI e Lógica**
-   - Controllers não devem conter elementos de UI
-   - UI deve gerenciar feedback visual
-   - Verificar estado de montagem em operações assíncronas
+### Testes de Widget
+- Testa interação do usuário
+- Verifica renderização
+- Mock de dependências
 
-2. **Gerenciamento de Estado**
-   - Usar ValueNotifier para estado local
-   - Implementar dispose adequadamente
-   - Evitar dependências circulares
+```dart
+testWidgets('should display todo title', (tester) async {
+  await tester.pumpWidget(TodoItem(
+    todo: todo,
+    onToggleCompletion: () {},
+    onTodoSelected: (_) {},
+  ));
+  
+  expect(find.text('Test Todo'), findsOneWidget);
+});
+```
 
-3. **Tratamento de Erros**
-   - Controllers retornam resultados booleanos
-   - UI decide como apresentar erros
-   - Manter mensagens de erro na camada de UI
+### Testes de Unidade
+- Testa regras de negócio
+- Verifica fluxo de dados
+- Mock de dependências externas
 
-4. **Testabilidade**
-   - Controllers podem ser testados isoladamente
-   - UI pode ser testada com mocks de controllers
-   - Lógica de negócio independente de UI
+```dart
+test('should update todo successfully', () async {
+  when(mockUseCases.updateTodo(any))
+    .thenAnswer((_) async => testTodo);
+    
+  final success = await controller.updateTodo(context, testTodo);
+  
+  expect(success, true);
+});
+```
+
+## Convenções e Boas Práticas
+
+1. **Injeção de Dependências**
+   - Use construtores para injetar dependências
+   - Evite dependências concretas
+   - Use factories quando necessário
+
+2. **Tratamento de Erros**
+   - Use tipos de erro específicos
+   - Trate erros no nível apropriado
+   - Forneça feedback ao usuário
+
+3. **Estado**
+   - Use `ValueNotifier` para estado local
+   - Use `Provider` para estado global
+   - Mantenha estado imutável
+
+4. **Testes**
+   - Teste cada camada isoladamente
+   - Use mocks apropriadamente
+   - Mantenha testes legíveis
 
 ## Benefícios da Arquitetura
 

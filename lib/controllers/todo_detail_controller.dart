@@ -1,62 +1,98 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/todo.dart';
+import '../domain/models/todo.dart';
+import '../domain/usecases/todo_usecases.dart';
 import '../providers/todo_provider.dart';
 
-class TodoDetailController {
-  final BuildContext context;
+class TodoDetailController extends ChangeNotifier {
   final int todoId;
-  final TextEditingController textController = TextEditingController();
-  late Todo? todo;
-
-  final ValueNotifier<bool> isEditing = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
+  final TodoUseCases _useCases;
+  final ValueNotifier<Todo?> _todo = ValueNotifier<Todo?>(null);
+  final ValueNotifier<bool> _isLoading = ValueNotifier<bool>(false);
+  final ValueNotifier<String?> _error = ValueNotifier<String?>(null);
 
   TodoDetailController({
-    required this.context,
     required this.todoId,
-  });
+    required TodoUseCases useCases,
+  }) : _useCases = useCases;
 
-  void dispose() {
-    textController.dispose();
-    isEditing.dispose();
-    isLoading.dispose();
-  }
+  ValueListenable<Todo?> get todo => _todo;
+  ValueListenable<bool> get isLoading => _isLoading;
+  ValueListenable<String?> get error => _error;
 
-  bool loadTodo() {
-    final todoProvider = Provider.of<TodoProvider>(context, listen: false);
-    final loadedTodo = todoProvider.findTodoById(todoId);
-
-    if (loadedTodo != null) {
-      todo = loadedTodo;
-      textController.text = todo!.todo;
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  void toggleEdit() {
-    if (isEditing.value && todo != null) {
-      // Save changes
-      final updatedTodo = todo!.copyWith(todo: textController.text);
-      Provider.of<TodoProvider>(context, listen: false).updateTodo(updatedTodo);
-      todo = updatedTodo;
-    }
-    isEditing.value = !isEditing.value;
-  }
-
-  Future<bool> deleteTodo() async {
-    isLoading.value = true;
+  Future<bool> loadTodo(BuildContext context) async {
+    _isLoading.value = true;
+    _error.value = null;
+    notifyListeners();
 
     try {
+      // Get todo from provider instead of API
       final todoProvider = Provider.of<TodoProvider>(context, listen: false);
-      await todoProvider.deleteTodo(todoId);
-      isLoading.value = false;
+      final todo = todoProvider.findTodoById(todoId);
+
+      if (todo == null) {
+        _error.value = 'Todo not found';
+        _isLoading.value = false;
+        notifyListeners();
+        return false;
+      }
+
+      _todo.value = todo;
+      _isLoading.value = false;
+      notifyListeners();
       return true;
     } catch (e) {
-      isLoading.value = false;
+      _error.value = e.toString();
+      _isLoading.value = false;
+      notifyListeners();
       return false;
     }
+  }
+
+  Future<bool> updateTodo(BuildContext context, Todo updatedTodo) async {
+    try {
+      // Update in provider first
+      final todoProvider = Provider.of<TodoProvider>(context, listen: false);
+      await todoProvider.updateTodo(updatedTodo);
+
+      // Then update local state
+      _todo.value = updatedTodo;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _error.value = e.toString();
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> deleteTodo(BuildContext context) async {
+    _isLoading.value = true;
+    _error.value = null;
+    notifyListeners();
+
+    try {
+      // Delete from provider
+      final todoProvider = Provider.of<TodoProvider>(context, listen: false);
+      await todoProvider.deleteTodo(todoId);
+
+      _isLoading.value = false;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _error.value = e.toString();
+      _isLoading.value = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  @override
+  void dispose() {
+    _todo.dispose();
+    _isLoading.dispose();
+    _error.dispose();
+    super.dispose();
   }
 }

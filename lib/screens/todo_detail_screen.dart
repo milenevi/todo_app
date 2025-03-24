@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import '../domain/models/todo.dart';
 import '../controllers/todo_detail_controller.dart';
-import '../widgets/todo_detail/delete_confirmation_dialog.dart';
-import '../widgets/todo_detail/detail_app_bar.dart';
-import '../widgets/todo_detail/loading_screen.dart';
-import '../widgets/todo_detail/status_row.dart';
+import '../controllers/todo_detail_controller_factory.dart';
 import '../widgets/todo_detail/task_content.dart';
+import '../widgets/todo_detail/detail_app_bar.dart';
+import '../widgets/todo_detail/delete_confirmation_dialog.dart';
 
 class TodoDetailScreen extends StatefulWidget {
   final int todoId;
@@ -19,113 +19,121 @@ class TodoDetailScreen extends StatefulWidget {
 }
 
 class _TodoDetailScreenState extends State<TodoDetailScreen> {
-  late TodoDetailController controller;
+  late final TodoDetailController controller;
+  late final TextEditingController _textController;
+  bool _isEditing = false;
 
   @override
   void initState() {
     super.initState();
-    controller = TodoDetailController(
-      context: context,
-      todoId: widget.todoId,
-    );
+    controller = TodoDetailControllerFactory.create(context, widget.todoId);
+    _textController = TextEditingController();
     _loadTodo();
   }
 
-  void _loadTodo() {
-    final success = controller.loadTodo();
-    if (!success) {
-      // Mostrar erro e voltar para a tela anterior
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Task not found'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      });
-    }
-  }
+  Future<void> _loadTodo() async {
+    if (!mounted) return;
 
-  Future<void> _confirmDelete() async {
-    final shouldDelete = await DeleteConfirmationDialog.show(context);
-
-    if (shouldDelete == true) {
-      await _deleteTodo();
+    final success = await controller.loadTodo(context);
+    if (success && mounted) {
+      _textController.text = controller.todo.value?.todo ?? '';
     }
   }
 
   Future<void> _deleteTodo() async {
-    final success = await controller.deleteTodo();
-
     if (!mounted) return;
+    final confirmed = await DeleteConfirmationDialog.show(context);
 
-    if (success) {
-      // Mostrar mensagem de sucesso e voltar
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Task deleted successfully'),
-          backgroundColor: Colors.green,
-        ),
-      );
-      Navigator.of(context).pop();
-    } else {
-      // Mostrar erro
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Error deleting task'),
-          backgroundColor: Colors.red,
-        ),
-      );
+    if (confirmed == true && mounted) {
+      final success = await controller.deleteTodo(context);
+      if (success && mounted) {
+        Navigator.of(context).pop(); // Pop detail screen
+      }
     }
+  }
+
+  void _toggleEditing() {
+    setState(() {
+      if (_isEditing) {
+        // Save changes
+        final todo = controller.todo.value;
+        if (todo != null) {
+          _updateTodo(todo.copyWith(todo: _textController.text));
+        }
+      }
+      _isEditing = !_isEditing;
+    });
+  }
+
+  void _updateTodo(Todo updatedTodo) {
+    controller.updateTodo(context, updatedTodo);
   }
 
   @override
   void dispose() {
     controller.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: controller.isLoading,
-      builder: (context, isLoading, _) {
-        if (isLoading) {
-          return const LoadingScreen();
-        }
+    return Scaffold(
+      appBar: DetailAppBar(
+        isEditing: _isEditing,
+        onEditToggle: _toggleEditing,
+        onDelete: _deleteTodo,
+      ),
+      body: ValueListenableBuilder<bool>(
+        valueListenable: controller.isLoading,
+        builder: (context, isLoading, _) {
+          if (isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-        return ValueListenableBuilder<bool>(
-          valueListenable: controller.isEditing,
-          builder: (context, isEditing, _) {
-            return Scaffold(
-              appBar: DetailAppBar(
-                isEditing: isEditing,
-                onEditToggle: controller.toggleEdit,
-                onDelete: _confirmDelete,
-              ),
-              body: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: SingleChildScrollView(
+          return ValueListenableBuilder<String?>(
+            valueListenable: controller.error,
+            builder: (context, error, _) {
+              if (error != null) {
+                return Center(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TaskContent(
-                        todo: controller.todo,
-                        textController: controller.textController,
-                        isEditing: isEditing,
-                      ),
+                      Text(error),
                       const SizedBox(height: 16),
-                      StatusRow(todoId: widget.todoId),
+                      ElevatedButton(
+                        onPressed: _loadTodo,
+                        child: const Text('Retry'),
+                      ),
                     ],
                   ),
-                ),
-              ),
-            );
-          },
-        );
-      },
+                );
+              }
+
+              return ValueListenableBuilder<Todo?>(
+                valueListenable: controller.todo,
+                builder: (context, todo, _) {
+                  if (todo == null) {
+                    return const Center(
+                      child: Text('Todo not found'),
+                    );
+                  }
+
+                  return TaskContent(
+                    todo: todo,
+                    textController: _textController,
+                    isEditing: _isEditing,
+                    onSave: _updateTodo,
+                    onStatusChanged: (value) {
+                      _updateTodo(todo.copyWith(completed: value));
+                    },
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

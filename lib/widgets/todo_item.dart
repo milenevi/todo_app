@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:todo_app/widgets/todo_item/todo_container.dart';
-import 'package:todo_app/widgets/todo_item/todo_title.dart';
-import '../models/todo.dart';
-import '../providers/todo_provider.dart';
-import '../screens/todo_detail_screen.dart';
+import '../domain/models/todo.dart';
 import 'todo_item/completion_checkbox.dart';
 import 'todo_item/due_date_indicator.dart';
+import 'todo_item/todo_container.dart';
+import 'todo_item/todo_title.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
+  final VoidCallback onToggleCompletion;
+  final ValueChanged<int> onTodoSelected;
 
   const TodoItem({
     Key? key,
     required this.todo,
+    required this.onToggleCompletion,
+    required this.onTodoSelected,
   }) : super(key: key);
 
   @override
@@ -25,20 +26,11 @@ class TodoItem extends StatelessWidget {
         ),
         leading: CompletionCheckbox(
           todo: todo,
-          onTap: () {
-            Provider.of<TodoProvider>(context, listen: false)
-                .toggleTodoCompletion(todo);
-          },
+          onTap: onToggleCompletion,
         ),
         title: TodoTitle(todo: todo),
         trailing: DueDateIndicator(todo: todo),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => TodoDetailScreen(todoId: todo.id),
-            ),
-          );
-        },
+        onTap: () => onTodoSelected(todo.id),
       ),
     );
   }

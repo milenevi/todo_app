@@ -16,7 +16,7 @@ class TodoListScreen extends StatefulWidget {
 }
 
 class _TodoListScreenState extends State<TodoListScreen> {
-  final _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {

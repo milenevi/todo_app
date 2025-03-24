@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import '../../../models/todo.dart';
+import '../../domain/models/todo.dart';
 
 class CompletionCheckbox extends StatelessWidget {
   final Todo todo;
   final VoidCallback onTap;
 
   const CompletionCheckbox({
-    Key? key,
+    super.key,
     required this.todo,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

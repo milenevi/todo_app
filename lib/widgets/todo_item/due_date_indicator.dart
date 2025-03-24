@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/todo.dart';
+import '../../domain/models/todo.dart';
 
 class DueDateIndicator extends StatelessWidget {
   final Todo todo;

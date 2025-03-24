@@ -1,7 +1,13 @@
-import '../models/todo.dart';
+import '../domain/models/todo.dart';
+import '../repositories/todo_repository.dart';
 import 'todo_state.dart';
 
 class TodoOperations {
+  final TodoRepository _repository;
+
+  TodoOperations({required TodoRepository repository})
+      : _repository = repository;
+
   /// Adiciona uma nova tarefa ao estado
   ///
   /// Retorna um novo estado com a tarefa adicionada ou um erro
@@ -147,5 +153,17 @@ class TodoOperations {
         error: 'Failed to update todo: ${e.toString()}',
       );
     }
+  }
+
+  Future<List<Todo>> loadTodos() async {
+    return _repository.fetchTodos();
+  }
+
+  Future<Todo> loadTodoById(int id) async {
+    return _repository.fetchTodoById(id);
+  }
+
+  void dispose() {
+    _repository.dispose();
   }
 }

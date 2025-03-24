@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:todo_app/services/todo_service.dart';
+import 'package:todo_app/data/datasources/todo_service.dart';
 
 // Cliente mock que implementa http.Client
 class MockHttpClient implements http.Client {

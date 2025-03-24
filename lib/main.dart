@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/data/repositories/todo_repository_impl.dart';
+import 'package:todo_app/domain/repositories/todo_repository.dart';
+import 'package:todo_app/domain/usecases/todo_usecases.dart';
+import 'package:todo_app/providers/todo_provider.dart';
 import 'package:todo_app/screens/todo_list_screen.dart';
-import 'providers/todo_provider.dart';
+import 'package:todo_app/screens/todo_detail_screen.dart';
 import 'theme/app_themes.dart';
 import 'theme/theme_provider.dart';
 
@@ -16,7 +20,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => TodoProvider()),
+        Provider<TodoRepository>(
+          create: (_) => TodoRepositoryImpl(),
+        ),
+        Provider<TodoUseCases>(
+          create: (context) => TodoUseCases(
+            repository: context.read<TodoRepository>(),
+          ),
+        ),
+        ChangeNotifierProvider<TodoProvider>(
+          create: (context) => TodoProvider(
+            useCases: context.read<TodoUseCases>(),
+          ),
+        ),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
       child: Consumer<ThemeProvider>(
@@ -29,6 +45,13 @@ class MyApp extends StatelessWidget {
             themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
             debugShowCheckedModeBanner: false,
             home: const TodoListScreen(),
+            routes: {
+              '/todo-detail': (context) {
+                final todoId =
+                ModalRoute.of(context)!.settings.arguments as int;
+                return TodoDetailScreen(todoId: todoId);
+              },
+            },
           );
         },
       ),
