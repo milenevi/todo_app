@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
             darkTheme: AppThemes.getDarkTheme(),
             themeMode:
             themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            debugShowCheckedModeBanner: false,
             home: const TodoListScreen(),
           );
         },

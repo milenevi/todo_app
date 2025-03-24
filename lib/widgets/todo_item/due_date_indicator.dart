@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import '../../../models/todo.dart';
 
-class DueDate extends StatelessWidget {
-  final bool isCompleted;
-  final bool isDarkMode;
+class DueDateIndicator extends StatelessWidget {
+  final Todo todo;
 
-  const DueDate({
+  const DueDateIndicator({
     Key? key,
-    required this.isCompleted,
-    required this.isDarkMode,
+    required this.todo,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -26,7 +27,7 @@ class DueDate extends StatelessWidget {
           style: TextStyle(
             color: isDarkMode ? Colors.white38 : Colors.black38,
             fontSize: 14,
-            decoration: isCompleted ? TextDecoration.lineThrough : null,
+            decoration: todo.completed ? TextDecoration.lineThrough : null,
           ),
         ),
       ],

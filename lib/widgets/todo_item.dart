@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../components/completion_circle.dart';
-import '../components/due_date.dart';
-import '../components/todo_text.dart';
+import 'package:todo_app/widgets/todo_item/todo_container.dart';
+import 'package:todo_app/widgets/todo_item/todo_title.dart';
 import '../models/todo.dart';
 import '../providers/todo_provider.dart';
 import '../screens/todo_detail_screen.dart';
+import 'todo_item/completion_checkbox.dart';
+import 'todo_item/due_date_indicator.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
@@ -17,35 +18,20 @@ class TodoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      decoration: BoxDecoration(
-        color: isDarkMode ? const Color(0xFF384060) : Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
+    return TodoContainer(
       child: ListTile(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        leading: CompletionCircle(
-          isCompleted: todo.completed,
-          isDarkMode: isDarkMode,
+        leading: CompletionCheckbox(
+          todo: todo,
           onTap: () {
             Provider.of<TodoProvider>(context, listen: false)
                 .toggleTodoCompletion(todo);
           },
         ),
-        title: TodoText(
-          text: todo.todo,
-          isCompleted: todo.completed,
-          isDarkMode: isDarkMode,
-        ),
-        trailing: DueDate(
-          isCompleted: todo.completed,
-          isDarkMode: isDarkMode,
-        ),
+        title: TodoTitle(todo: todo),
+        trailing: DueDateIndicator(todo: todo),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(

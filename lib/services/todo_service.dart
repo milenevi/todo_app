@@ -4,10 +4,13 @@ import '../models/todo.dart';
 
 class TodoService {
   final String baseUrl = 'https://dummyjson.com';
+  final http.Client _client;
+
+  TodoService({http.Client? client}) : _client = client ?? http.Client();
 
   Future<List<Todo>> getTodos() async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/todos'));
+      final response = await _client.get(Uri.parse('$baseUrl/todos'));
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
@@ -25,7 +28,7 @@ class TodoService {
 
   Future<Todo> getTodoById(int id) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/todos/$id'));
+      final response = await _client.get(Uri.parse('$baseUrl/todos/$id'));
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
@@ -36,5 +39,10 @@ class TodoService {
     } catch (e) {
       throw Exception('Failed to load todo: $e');
     }
+  }
+
+
+  void dispose() {
+    _client.close();
   }
 }

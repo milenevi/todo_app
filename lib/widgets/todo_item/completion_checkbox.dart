@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import '../../../models/todo.dart';
 
-class CompletionCircle extends StatelessWidget {
-  final bool isCompleted;
-  final bool isDarkMode;
+class CompletionCheckbox extends StatelessWidget {
+  final Todo todo;
   final VoidCallback onTap;
 
-  const CompletionCircle({
+  const CompletionCheckbox({
     Key? key,
-    required this.isCompleted,
-    required this.isDarkMode,
+    required this.todo,
     required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -21,15 +22,15 @@ class CompletionCircle extends StatelessWidget {
         height: 30,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: isCompleted
+          color: todo.completed
               ? Colors.green.withAlpha(51)
               : (isDarkMode ? Colors.white : Colors.white),
           border: Border.all(
-            color: isCompleted ? Colors.green : Colors.grey.withAlpha(128),
+            color: todo.completed ? Colors.green : Colors.grey.withAlpha(128),
             width: 2,
           ),
         ),
-        child: isCompleted
+        child: todo.completed
             ? const Icon(
           Icons.check,
           size: 20,

@@ -17,8 +17,7 @@ class AppColors {
   static const primary = Colors.blue;
 
   // Checkbox Colors
-  static const checkboxActiveColor = Color(0xFF4CAF50); // Verde
-  static const checkboxActiveBgColor =
-  Color(0x1A4CAF50); // Verde claro com transparência
+  static const checkboxActiveColor = Color(0xFF4CAF50);
+  static const checkboxActiveBgColor = Color(0x1A4CAF50);
   static const checkboxBorderColor = Colors.white;
 }
