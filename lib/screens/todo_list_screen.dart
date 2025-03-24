@@ -9,14 +9,14 @@ import '../widgets/todo_list/loading_error_handler.dart';
 import '../widgets/todo_list/todo_list_view.dart';
 
 class TodoListScreen extends StatefulWidget {
-  const TodoListScreen({Key? key}) : super(key: key);
+  const TodoListScreen({super.key});
 
   @override
   State<TodoListScreen> createState() => _TodoListScreenState();
 }
 
 class _TodoListScreenState extends State<TodoListScreen> {
-  final _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
@@ -52,15 +52,13 @@ class _TodoListScreenState extends State<TodoListScreen> {
               child: Column(
                 children: [
                   AddItemButton(
-                    onPressed: () =>
-                        AddTodoDialog.show(context, _textController),
+                    onPressed:
+                        () => AddTodoDialog.show(context, _textController),
                   ),
                   const SizedBox(height: 24),
                   const DividerLine(),
                   const SizedBox(height: 24),
-                  Expanded(
-                    child: TodoListView(todoProvider: todoProvider),
-                  ),
+                  Expanded(child: TodoListView(todoProvider: todoProvider)),
                 ],
               ),
             ),

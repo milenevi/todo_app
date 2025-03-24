@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTitle extends StatelessWidget {
-  const AppTitle({Key? key}) : super(key: key);
+  const AppTitle({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +20,10 @@ class AppTitle extends StatelessWidget {
         Text(
           'CHORES',
           style: TextStyle(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white54
-                : Colors.black54,
+            color:
+                Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white54
+                    : Colors.black54,
             fontWeight: FontWeight.w500,
           ),
         ),

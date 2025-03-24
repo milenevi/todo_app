@@ -3,7 +3,7 @@ import '../widgets/about/about_app_bar.dart';
 import '../widgets/about/info_section.dart';
 
 class AboutScreen extends StatelessWidget {
-  const AboutScreen({Key? key}) : super(key: key);
+  const AboutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +20,7 @@ class AboutScreen extends StatelessWidget {
               content: 'Milene Vieira Lopes',
             ),
             SizedBox(height: 24),
-            InfoSection(
-              title: 'Versão do app:',
-              content: '1.0.0',
-            ),
+            InfoSection(title: 'Versão do app:', content: '1.0.0'),
           ],
         ),
       ),

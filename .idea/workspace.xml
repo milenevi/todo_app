@@ -10,7 +10,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5316b1a-14f9-4c7b-9b27-a64233a9efa0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/about_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/about_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/todo_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/todo_detail_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/todo_list_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/todo_list_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/about/about_app_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/about/about_app_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/about/info_section.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/about/info_section.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_detail/detail_app_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_detail/detail_app_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_detail/loading_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_detail/loading_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_detail/status_row.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_detail/status_row.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_detail/task_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_detail/task_content.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_item/due_date_indicator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_item/due_date_indicator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_item/todo_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_item/todo_container.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/add_item_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/add_item_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/app_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/app_bar_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/app_title.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/app_title.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/divider_line.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/divider_line.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/loading_error_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/loading_error_handler.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/section_title.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/section_title.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/theme_toggle_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/theme_toggle_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/todo_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/todo_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/todo_detail_controller_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_detail_controller_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/todo_detail_controller_test.mocks.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_detail_controller_test.mocks.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/todo_provider_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_provider_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/todo_provider_test.mocks.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_provider_test.mocks.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/todo_repository_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_repository_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/todo_repository_test.mocks.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_repository_test.mocks.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/todo_service_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_service_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/todo_service_test.mocks.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/widget/todo_detail_screen_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/widget/todo_detail_screen_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

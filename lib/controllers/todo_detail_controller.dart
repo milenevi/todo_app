@@ -1,108 +1,98 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/todo.dart';
+import '../domain/models/todo.dart';
+import '../domain/usecases/todo_usecases.dart';
 import '../providers/todo_provider.dart';
-import '../widgets/todo_detail/delete_confirmation_dialog.dart';
 
-class TodoDetailController {
-  final BuildContext context;
+class TodoDetailController extends ChangeNotifier {
   final int todoId;
-  final TextEditingController textController = TextEditingController();
-  late Todo todo;
-
-  final ValueNotifier<bool> isEditing = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
+  final TodoUseCases _useCases;
+  final ValueNotifier<Todo?> _todo = ValueNotifier<Todo?>(null);
+  final ValueNotifier<bool> _isLoading = ValueNotifier<bool>(false);
+  final ValueNotifier<String?> _error = ValueNotifier<String?>(null);
 
   TodoDetailController({
-    required this.context,
     required this.todoId,
-  });
+    required TodoUseCases useCases,
+  }) : _useCases = useCases;
 
-  void dispose() {
-    textController.dispose();
-    isEditing.dispose();
-    isLoading.dispose();
-  }
+  ValueListenable<Todo?> get todo => _todo;
+  ValueListenable<bool> get isLoading => _isLoading;
+  ValueListenable<String?> get error => _error;
 
-  bool loadTodo() {
-    final todoProvider = Provider.of<TodoProvider>(context, listen: false);
-    final loadedTodo = todoProvider.findTodoById(todoId);
+  Future<bool> loadTodo(BuildContext context) async {
+    _isLoading.value = true;
+    _error.value = null;
+    notifyListeners();
 
-    if (loadedTodo != null) {
-      todo = loadedTodo;
-      textController.text = todo.todo;
+    try {
+      // Get todo from provider instead of API
+      final todoProvider = Provider.of<TodoProvider>(context, listen: false);
+      final todo = todoProvider.findTodoById(todoId);
+
+      if (todo == null) {
+        _error.value = 'Todo not found';
+        _isLoading.value = false;
+        notifyListeners();
+        return false;
+      }
+
+      _todo.value = todo;
+      _isLoading.value = false;
+      notifyListeners();
       return true;
-    } else {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Task not found'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      });
+    } catch (e) {
+      _error.value = e.toString();
+      _isLoading.value = false;
+      notifyListeners();
       return false;
     }
   }
 
-  void toggleEdit() {
-    if (isEditing.value) {
-      // Save changes
-      final updatedTodo = todo.copyWith(todo: textController.text);
-      Provider.of<TodoProvider>(context, listen: false).updateTodo(updatedTodo);
-      todo = updatedTodo;
+  Future<bool> updateTodo(BuildContext context, Todo updatedTodo) async {
+    try {
+      // Update in provider first
+      final todoProvider = Provider.of<TodoProvider>(context, listen: false);
+      await todoProvider.updateTodo(updatedTodo);
+
+      // Then update local state
+      _todo.value = updatedTodo;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _error.value = e.toString();
+      notifyListeners();
+      return false;
     }
-    isEditing.value = !isEditing.value;
   }
 
-  Future<void> confirmDelete() async {
-    final shouldDelete = await DeleteConfirmationDialog.show(context);
-
-    if (shouldDelete == true) {
-      await deleteTodo();
-    }
-  }
-
-  Future<void> deleteTodo() async {
-    isLoading.value = true;
+  Future<bool> deleteTodo(BuildContext context) async {
+    _isLoading.value = true;
+    _error.value = null;
+    notifyListeners();
 
     try {
+      // Delete from provider
       final todoProvider = Provider.of<TodoProvider>(context, listen: false);
       await todoProvider.deleteTodo(todoId);
 
-      isLoading.value = false;
-
-      // Show success message and navigate back
-      if (!_contextIsValid()) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Task deleted successfully'),
-          backgroundColor: Colors.green,
-        ),
-      );
-
-      Navigator.of(context).pop();
+      _isLoading.value = false;
+      notifyListeners();
+      return true;
     } catch (e) {
-      if (!_contextIsValid()) return;
-
-      isLoading.value = false;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error deleting task: ${e.toString()}'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      _error.value = e.toString();
+      _isLoading.value = false;
+      notifyListeners();
+      return false;
     }
   }
 
-  bool _contextIsValid() {
-    try {
-      return WidgetsBinding.instance.rootElement != null;
-    } catch (e) {
-      return false;
-    }
+  @override
+  void dispose() {
+    _todo.dispose();
+    _isLoading.dispose();
+    _error.dispose();
+    super.dispose();
   }
 }

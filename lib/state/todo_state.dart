@@ -1,4 +1,4 @@
-import '../models/todo.dart';
+import '../domain/models/todo.dart';
 
 class TodoState {
   final List<Todo> todos;
@@ -6,8 +6,8 @@ class TodoState {
   final String? error;
 
   TodoState({
-    required this.todos,
-    required this.isLoading,
+    this.todos = const [],
+    this.isLoading = false,
     this.error,
   });
 
@@ -24,7 +24,7 @@ class TodoState {
     return TodoState(
       todos: todos ?? this.todos,
       isLoading: isLoading ?? this.isLoading,
-      error: error,
+      error: error ?? this.error,
     );
   }
 

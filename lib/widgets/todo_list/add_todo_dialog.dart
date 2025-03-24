@@ -4,6 +4,8 @@ import '../../providers/todo_provider.dart';
 
 class AddTodoDialog {
   static void show(BuildContext context, TextEditingController textController) {
+    textController.clear();
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

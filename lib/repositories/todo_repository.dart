@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import '../models/todo.dart';
+import '../domain/models/todo.dart';
 import '../services/todo_service.dart';
 
 class TodoRepository {
