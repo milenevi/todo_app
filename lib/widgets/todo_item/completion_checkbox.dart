@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/todo.dart';
+import '../../../models/todo.dart';
 
 class CompletionCheckbox extends StatelessWidget {
   final Todo todo;

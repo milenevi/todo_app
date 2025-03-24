@@ -10,13 +10,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5316b1a-14f9-4c7b-9b27-a64233a9efa0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/widgets/completion_checkbox.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/widgets/due_date_indicator.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/widgets/todo_container.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/widgets/todo_title.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/completion_circle.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/due_date.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/todo_text.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/completion_checkbox.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_item/completion_checkbox.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/due_date_indicator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_item/due_date_indicator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_item/todo_container.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/widgets/todo_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_title.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_item/todo_title.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,6 +92,11 @@
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/widgets/todo_item" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

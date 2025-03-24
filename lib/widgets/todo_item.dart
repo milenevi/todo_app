@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/widgets/todo_container.dart';
-import 'package:todo_app/widgets/todo_title.dart';
-import '../components/completion_circle.dart';
-import '../components/due_date.dart';
-import '../components/todo_text.dart';
+import 'package:todo_app/widgets/todo_item/todo_container.dart';
+import 'package:todo_app/widgets/todo_item/todo_title.dart';
 import '../models/todo.dart';
 import '../providers/todo_provider.dart';
 import '../screens/todo_detail_screen.dart';
-import 'completion_checkbox.dart';
-import 'due_date_indicator.dart';
+import 'todo_item/completion_checkbox.dart';
+import 'todo_item/due_date_indicator.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
