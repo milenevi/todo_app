@@ -124,9 +124,12 @@ O projeto inclui diferentes tipos de testes:
     - Usam mocks para isolar dependências
 
 3. **Testes de Integração**
-    - Testam a integração entre camadas
-    - Verificam o fluxo completo de dados
-    - Testam a comunicação com APIs
+    - Testam fluxos completos da aplicação
+    - Verificam interações entre componentes
+    - Simulam ações do usuário em cenários reais
+    - Testam o ciclo completo: criação, edição e remoção de tarefas
+
+Para mais detalhes sobre os testes implementados, consulte o [README de Testes](test/README.md).
 
 ## Como Executar
 

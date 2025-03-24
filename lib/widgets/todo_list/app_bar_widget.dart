@@ -4,7 +4,7 @@ import 'app_title.dart';
 import 'theme_toggle_button.dart';
 
 class TodoAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const TodoAppBar({Key? key}) : super(key: key);
+  const TodoAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,10 @@ class TodoAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: IconButton(
         icon: Icon(
           Icons.menu,
-          color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.white54
-              : Colors.black54,
+          color:
+              Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white54
+                  : Colors.black54,
         ),
         onPressed: () {
           Navigator.push(
@@ -25,9 +26,7 @@ class TodoAppBar extends StatelessWidget implements PreferredSizeWidget {
         },
       ),
       title: const AppTitle(),
-      actions: const [
-        ThemeToggleButton(),
-      ],
+      actions: const [ThemeToggleButton()],
     );
   }
 

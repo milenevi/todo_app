@@ -9,10 +9,7 @@ import '../widgets/todo_detail/delete_confirmation_dialog.dart';
 class TodoDetailScreen extends StatefulWidget {
   final int todoId;
 
-  const TodoDetailScreen({
-    Key? key,
-    required this.todoId,
-  }) : super(key: key);
+  const TodoDetailScreen({super.key, required this.todoId});
 
   @override
   State<TodoDetailScreen> createState() => _TodoDetailScreenState();
@@ -114,9 +111,7 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
                 valueListenable: controller.todo,
                 builder: (context, todo, _) {
                   if (todo == null) {
-                    return const Center(
-                      child: Text('Todo not found'),
-                    );
+                    return const Center(child: Text('Todo not found'));
                   }
 
                   return TaskContent(

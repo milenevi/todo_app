@@ -4,10 +4,7 @@ import '../../theme/app_colors.dart';
 class AddItemButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const AddItemButton({
-    Key? key,
-    required this.onPressed,
-  }) : super(key: key);
+  const AddItemButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +17,9 @@ class AddItemButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
           color:
-          isDarkMode ? AppColors.darkSecondary : AppColors.lightSecondary,
+              isDarkMode ? AppColors.darkSecondary : AppColors.lightSecondary,
           borderRadius: BorderRadius.circular(30),
-          border: Border.all(
-            color: Colors.grey.withAlpha(77),
-            width: 1,
-          ),
+          border: Border.all(color: Colors.grey.withAlpha(77), width: 1),
         ),
         child: Row(
           children: [
@@ -47,11 +41,7 @@ class AddItemButton extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary,
               ),
               child: const Center(
-                child: Icon(
-                  Icons.add,
-                  size: 20,
-                  color: Colors.white,
-                ),
+                child: Icon(Icons.add, size: 20, color: Colors.white),
               ),
             ),
           ],

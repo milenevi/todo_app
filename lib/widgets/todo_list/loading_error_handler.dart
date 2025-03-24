@@ -6,11 +6,11 @@ class LoadingErrorHandler extends StatelessWidget {
   final Widget child;
 
   const LoadingErrorHandler({
-    Key? key,
+    super.key,
     required this.isLoading,
     this.errorMessage,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

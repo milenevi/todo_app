@@ -6,11 +6,11 @@ class DetailAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onDelete;
 
   const DetailAppBar({
-    Key? key,
+    super.key,
     required this.isEditing,
     required this.onEditToggle,
     required this.onDelete,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +21,7 @@ class DetailAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(isEditing ? Icons.save : Icons.edit),
           onPressed: onEditToggle,
         ),
-        IconButton(
-          icon: const Icon(Icons.delete),
-          onPressed: onDelete,
-        ),
+        IconButton(icon: const Icon(Icons.delete), onPressed: onDelete),
       ],
     );
   }

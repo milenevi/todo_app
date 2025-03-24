@@ -4,10 +4,7 @@ import '../../domain/models/todo.dart';
 class DueDateIndicator extends StatelessWidget {
   final Todo todo;
 
-  const DueDateIndicator({
-    Key? key,
-    required this.todo,
-  }) : super(key: key);
+  const DueDateIndicator({super.key, required this.todo});
 
   @override
   Widget build(BuildContext context) {

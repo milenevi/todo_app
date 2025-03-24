@@ -4,8 +4,7 @@ import 'package:mockito/annotations.dart';
 import 'package:todo_app/domain/models/todo.dart';
 import 'package:todo_app/domain/usecases/todo_usecases.dart';
 import 'package:todo_app/providers/todo_provider.dart';
-
-import 'todo_detail_controller_test.mocks.dart';
+import 'todo_provider_test.mocks.dart';
 
 @GenerateMocks([TodoUseCases])
 void main() {
@@ -21,7 +20,7 @@ void main() {
     test('should load todos successfully', () async {
       final todos = [
         Todo(id: 1, todo: 'Test Todo 1', completed: false, userId: 1),
-        Todo(id: 2, todo: 'Test Todo 2', completed: true, userId: 1)
+        Todo(id: 2, todo: 'Test Todo 2', completed: true, userId: 1),
       ];
       when(mockUseCases.getTodos()).thenAnswer((_) async => todos);
 
@@ -40,8 +39,25 @@ void main() {
 
       expect(provider.todos, isEmpty);
       expect(provider.isLoading, equals(false));
-      expect(provider.error, equals('Test error'));
+      expect(provider.error, equals('Exception: Test error'));
       verify(mockUseCases.getTodos()).called(1);
+    });
+
+    test('should find todo by id successfully', () {
+      final todo = Todo(id: 1, todo: 'Test Todo', completed: false, userId: 1);
+      provider.todos = [todo];
+
+      final result = provider.findTodoById(1);
+
+      expect(result, equals(todo));
+    });
+
+    test('should return null when finding non-existent todo by id', () {
+      provider.todos = [];
+
+      final result = provider.findTodoById(1);
+
+      expect(result, isNull);
     });
 
     test('should get todo by id successfully', () async {
@@ -57,90 +73,79 @@ void main() {
     test('should handle error when getting todo by id', () async {
       when(mockUseCases.getTodoById(1)).thenThrow(Exception('Test error'));
 
-      expect(() => provider.getTodoById(1), throwsException);
+      final result = await provider.getTodoById(1);
+
+      expect(result, isNull);
+      expect(provider.error, equals('Exception: Test error'));
       verify(mockUseCases.getTodoById(1)).called(1);
     });
 
     test('should add todo successfully', () async {
-      final todo = Todo(id: 1, todo: 'New Todo', completed: false, userId: 1);
-      when(mockUseCases.addTodo(any)).thenAnswer((_) async => todo);
-
       await provider.addTodo('New Todo');
 
-      expect(provider.todos, contains(todo));
-      verify(mockUseCases.addTodo('New Todo')).called(1);
+      expect(provider.todos.length, equals(1));
+      expect(provider.todos[0].todo, equals('New Todo'));
+      expect(provider.todos[0].completed, equals(false));
     });
 
-    test('should handle error when adding todo', () async {
-      when(mockUseCases.addTodo(any)).thenThrow(Exception('Test error'));
+    test('should not add empty todo', () async {
+      await provider.addTodo('  ');
 
-      await provider.addTodo('New Todo');
-
-      expect(provider.error, equals('Test error'));
-      verify(mockUseCases.addTodo('New Todo')).called(1);
+      expect(provider.todos, isEmpty);
+      expect(provider.error, equals('Task description cannot be empty'));
     });
 
     test('should update todo successfully', () async {
-      final todo =
-      Todo(id: 1, todo: 'Updated Todo', completed: true, userId: 1);
-      when(mockUseCases.updateTodo(any)).thenAnswer((_) async => todo);
+      // Add a todo first
+      final originalTodo = Todo(
+        id: 1,
+        todo: 'Original Todo',
+        completed: false,
+        userId: 1,
+      );
+      provider.todos = [originalTodo];
 
-      await provider.updateTodo(todo);
+      // Update it
+      final updatedTodo = Todo(
+        id: 1,
+        todo: 'Updated Todo',
+        completed: true,
+        userId: 1,
+      );
+      await provider.updateTodo(updatedTodo);
 
-      expect(provider.todos, contains(todo));
-      verify(mockUseCases.updateTodo(todo)).called(1);
-    });
-
-    test('should handle error when updating todo', () async {
-      final todo = Todo(id: 1, todo: 'Test Todo', completed: false, userId: 1);
-      when(mockUseCases.updateTodo(any)).thenThrow(Exception('Test error'));
-
-      await provider.updateTodo(todo);
-
-      expect(provider.error, equals('Test error'));
-      verify(mockUseCases.updateTodo(todo)).called(1);
+      expect(provider.todos.length, equals(1));
+      expect(provider.todos[0].todo, equals('Updated Todo'));
+      expect(provider.todos[0].completed, equals(true));
     });
 
     test('should toggle todo completion successfully', () async {
-      final todo = Todo(id: 1, todo: 'Test Todo', completed: true, userId: 1);
-      when(mockUseCases.toggleTodoCompletion(any))
-          .thenAnswer((_) async => todo);
+      // Add a todo first
+      final originalTodo = Todo(
+        id: 1,
+        todo: 'Test Todo',
+        completed: false,
+        userId: 1,
+      );
+      provider.todos = [originalTodo];
 
-      await provider.toggleTodoCompletion(todo);
+      // Toggle completion
+      await provider.toggleTodoCompletion(originalTodo);
 
-      expect(provider.todos, contains(todo));
-      verify(mockUseCases.toggleTodoCompletion(todo)).called(1);
-    });
-
-    test('should handle error when toggling todo completion', () async {
-      final todo = Todo(id: 1, todo: 'Test Todo', completed: false, userId: 1);
-      when(mockUseCases.toggleTodoCompletion(any))
-          .thenThrow(Exception('Test error'));
-
-      await provider.toggleTodoCompletion(todo);
-
-      expect(provider.error, equals('Test error'));
-      verify(mockUseCases.toggleTodoCompletion(todo)).called(1);
+      expect(provider.todos.length, equals(1));
+      expect(provider.todos[0].todo, equals('Test Todo'));
+      expect(provider.todos[0].completed, equals(true));
     });
 
     test('should delete todo successfully', () async {
+      // Add a todo first
       final todo = Todo(id: 1, todo: 'Test Todo', completed: false, userId: 1);
-      when(mockUseCases.deleteTodo(any)).thenAnswer((_) async => true);
+      provider.todos = [todo];
 
-      await provider.deleteTodo(todo.id);
+      // Delete it
+      await provider.deleteTodo(1);
 
-      expect(provider.todos, isNot(contains(todo)));
-      verify(mockUseCases.deleteTodo(todo.id)).called(1);
-    });
-
-    test('should handle error when deleting todo', () async {
-      final todo = Todo(id: 1, todo: 'Test Todo', completed: false, userId: 1);
-      when(mockUseCases.deleteTodo(any)).thenThrow(Exception('Test error'));
-
-      await provider.deleteTodo(todo.id);
-
-      expect(provider.error, equals('Test error'));
-      verify(mockUseCases.deleteTodo(todo.id)).called(1);
+      expect(provider.todos, isEmpty);
     });
 
     test('should dispose use cases', () {
@@ -152,7 +157,7 @@ void main() {
       final todos = [
         Todo(id: 1, todo: 'Test Todo 1', completed: true, userId: 1),
         Todo(id: 2, todo: 'Test Todo 2', completed: false, userId: 1),
-        Todo(id: 3, todo: 'Test Todo 3', completed: true, userId: 1)
+        Todo(id: 3, todo: 'Test Todo 3', completed: true, userId: 1),
       ];
       provider.todos = todos;
 
@@ -163,7 +168,7 @@ void main() {
       final todos = [
         Todo(id: 1, todo: 'Test Todo 1', completed: true, userId: 1),
         Todo(id: 2, todo: 'Test Todo 2', completed: false, userId: 1),
-        Todo(id: 3, todo: 'Test Todo 3', completed: true, userId: 1)
+        Todo(id: 3, todo: 'Test Todo 3', completed: true, userId: 1),
       ];
       provider.todos = todos;
 

@@ -4,12 +4,7 @@ import 'package:todo_app/domain/models/todo.dart';
 void main() {
   group('Todo Model', () {
     test('should create a Todo instance with correct values', () {
-      final todo = Todo(
-        id: 1,
-        todo: 'Test todo',
-        completed: false,
-        userId: 1,
-      );
+      final todo = Todo(id: 1, todo: 'Test todo', completed: false, userId: 1);
 
       expect(todo.id, equals(1));
       expect(todo.todo, equals('Test todo'));
@@ -34,12 +29,7 @@ void main() {
     });
 
     test('should convert Todo to JSON', () {
-      final todo = Todo(
-        id: 1,
-        todo: 'Test todo',
-        completed: false,
-        userId: 1,
-      );
+      final todo = Todo(id: 1, todo: 'Test todo', completed: false, userId: 1);
 
       final json = todo.toJson();
 
@@ -50,12 +40,7 @@ void main() {
     });
 
     test('should create a copy with modified values', () {
-      final todo = Todo(
-        id: 1,
-        todo: 'Test todo',
-        completed: false,
-        userId: 1,
-      );
+      final todo = Todo(id: 1, todo: 'Test todo', completed: false, userId: 1);
 
       final modifiedTodo = todo.copyWith(
         todo: 'Modified todo',

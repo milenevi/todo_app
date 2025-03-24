@@ -9,13 +9,13 @@ class TaskContent extends StatelessWidget {
   final Function(bool) onStatusChanged;
 
   const TaskContent({
-    Key? key,
+    super.key,
     required this.todo,
     required this.textController,
     required this.isEditing,
     required this.onSave,
     required this.onStatusChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,10 @@ class TaskContent extends StatelessWidget {
     }
 
     return Container(
-      color: isDarkMode
-          ? const Color(0xFF1F2937) // Dark blue background for dark mode
-          : const Color(0xFFF5F9FC), // Light blue background for light mode
+      color:
+          isDarkMode
+              ? const Color(0xFF1F2937) // Dark blue background for dark mode
+              : const Color(0xFFF5F9FC), // Light blue background for light mode
       width: double.infinity,
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -36,41 +37,41 @@ class TaskContent extends StatelessWidget {
         children: [
           isEditing
               ? TextField(
-            controller: textController,
-            style: TextStyle(
-              color: isDarkMode ? Colors.white : Colors.black,
-              fontSize: 18,
-            ),
-            decoration: InputDecoration(
-              labelText: 'Task Description',
-              labelStyle: TextStyle(
-                color: isDarkMode ? Colors.white70 : Colors.black54,
-              ),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: isDarkMode ? Colors.white54 : Colors.black54,
+                controller: textController,
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black,
+                  fontSize: 18,
                 ),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.primary,
-                  width: 2,
+                decoration: InputDecoration(
+                  labelText: 'Task Description',
+                  labelStyle: TextStyle(
+                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: isDarkMode ? Colors.white54 : Colors.black54,
+                    ),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            autofocus: true,
-            onSubmitted: (value) {
-              onSave(todo!.copyWith(todo: value));
-            },
-          )
+                autofocus: true,
+                onSubmitted: (value) {
+                  onSave(todo!.copyWith(todo: value));
+                },
+              )
               : Text(
-            todo!.todo,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w400,
-              color: isDarkMode ? Colors.white : Colors.black,
-            ),
-          ),
+                todo!.todo,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w400,
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,10 +84,7 @@ class TaskContent extends StatelessWidget {
                   color: isDarkMode ? Colors.white70 : Colors.black87,
                 ),
               ),
-              Switch(
-                value: todo!.completed,
-                onChanged: onStatusChanged,
-              ),
+              Switch(value: todo!.completed, onChanged: onStatusChanged),
             ],
           ),
         ],

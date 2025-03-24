@@ -11,23 +11,18 @@ class TodoItem extends StatelessWidget {
   final ValueChanged<int> onTodoSelected;
 
   const TodoItem({
-    Key? key,
+    super.key,
     required this.todo,
     required this.onToggleCompletion,
     required this.onTodoSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return TodoContainer(
       child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        leading: CompletionCheckbox(
-          todo: todo,
-          onTap: onToggleCompletion,
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        leading: CompletionCheckbox(todo: todo, onTap: onToggleCompletion),
         title: TodoTitle(todo: todo),
         trailing: DueDateIndicator(todo: todo),
         onTap: () => onTodoSelected(todo.id),
