@@ -10,17 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5316b1a-14f9-4c7b-9b27-a64233a9efa0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/repositories/todo_repository.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/state/todo_operations.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/state/todo_state.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/widgets/todo_detail/delete_confirmation_dialog.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/widgets/todo_detail/detail_app_bar.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/widgets/todo_detail/loading_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/widgets/todo_detail/status_row.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/widgets/todo_detail/task_content.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/about/about_app_bar.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/about/info_section.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/providers/todo_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/providers/todo_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/services/todo_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/todo_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/about_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/about_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
