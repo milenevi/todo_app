@@ -1,92 +1,86 @@
 import 'package:flutter/foundation.dart';
 import '../models/todo.dart';
-import '../services/todo_service.dart';
+import '../repositories/todo_repository.dart';
+import '../state/todo_operations.dart';
+import '../state/todo_state.dart';
 
 class TodoProvider with ChangeNotifier {
-  final TodoService _todoService = TodoService();
-  List<Todo> _todos = [];
-  bool _isLoading = false;
-  String? _error;
+  final TodoRepository _repository;
+  final TodoOperations _operations;
 
-  List<Todo> get todos => _todos;
-  bool get isLoading => _isLoading;
-  String? get error => _error;
+  TodoState _state = TodoState.initial();
 
-  List<Todo> get completedTodos =>
-      _todos.where((todo) => todo.completed).toList();
-  List<Todo> get incompleteTodos =>
-      _todos.where((todo) => !todo.completed).toList();
+  TodoProvider({TodoRepository? repository, TodoOperations? operations})
+      : _repository = repository ?? TodoRepository(),
+        _operations = operations ?? TodoOperations();
 
-  void setError(String? error) {
-    _error = error;
+  List<Todo> get todos => _state.todos;
+  bool get isLoading => _state.isLoading;
+  String? get error => _state.error;
+  List<Todo> get completedTodos => _state.completedTodos;
+  List<Todo> get incompleteTodos => _state.incompleteTodos;
+
+  Todo? findTodoById(int id) => _state.findTodoById(id);
+
+  void _updateState(TodoState newState) {
+    _state = newState;
     notifyListeners();
   }
 
-  void setLoading(bool loading) {
-    _isLoading = loading;
-    notifyListeners();
+  @override
+  void dispose() {
+    _repository.dispose();
+    super.dispose();
   }
 
   Future<void> fetchTodos() async {
-    _isLoading = true;
-    _error = null;
-    notifyListeners();
+    _updateState(_state.copyWith(isLoading: true, error: null));
 
     try {
-      _todos = await _todoService.getTodos();
+      final todos = await _repository.fetchTodos();
+      _updateState(_state.copyWith(todos: todos, isLoading: false));
     } catch (e) {
-      _error = e.toString();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
+      _updateState(_state.copyWith(
+        isLoading: false,
+        error: 'Failed to fetch todos: ${e.toString()}',
+      ));
     }
   }
 
   Future<void> toggleTodoCompletion(Todo todo) async {
-    final updatedTodo = todo.copyWith(completed: !todo.completed);
-    final index = _todos.indexWhere((t) => t.id == todo.id);
-
-    if (index != -1) {
-      _todos[index] = updatedTodo;
-      notifyListeners();
-    }
+    final newState = _operations.toggleTodoCompletion(_state, todo);
+    _updateState(newState);
   }
 
-  void addTodo(String title) {
-    final newId = _todos.isNotEmpty
-        ? _todos.map((t) => t.id).reduce((a, b) => a > b ? a : b) + 1
-        : 1;
-
-    final newTodo = Todo(
-      id: newId,
-      todo: title,
-      completed: false,
-      userId: 1, // Using a default userId
-    );
-
-    _todos.add(newTodo);
-    notifyListeners();
+  Future<void> addTodo(String title) async {
+    final newState = _operations.addTodo(_state, title);
+    _updateState(newState);
   }
 
   Future<void> deleteTodo(int id) async {
+    _updateState(_state.copyWith(isLoading: true));
+
     try {
-      setLoading(true);
-      _todos.removeWhere((todo) => todo.id == id);
-      notifyListeners();
+      final newState = _operations.deleteTodo(_state, id);
+      _updateState(newState.copyWith(isLoading: false));
     } catch (e) {
-      setError('Error deleting todo: ${e.toString()}');
+      _updateState(_state.copyWith(
+        isLoading: false,
+        error: 'Error deleting todo: ${e.toString()}',
+      ));
       rethrow;
-    } finally {
-      setLoading(false);
     }
   }
 
-  void updateTodo(Todo updatedTodo) {
-    final index = _todos.indexWhere((todo) => todo.id == updatedTodo.id);
-
-    if (index != -1) {
-      _todos[index] = updatedTodo;
-      notifyListeners();
+  Future<void> updateTodo(Todo updatedTodo) async {
+    try {
+      final newState = _operations.updateTodo(_state, updatedTodo);
+      _updateState(newState);
+    } catch (e) {
+      _updateState(_state.copyWith(
+        error: 'Failed to update todo: ${e.toString()}',
+      ));
+      rethrow;
     }
   }
 }

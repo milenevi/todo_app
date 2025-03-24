@@ -1,0 +1,34 @@
+import 'package:flutter/material.dart';
+
+class DetailAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final bool isEditing;
+  final VoidCallback onEditToggle;
+  final VoidCallback onDelete;
+
+  const DetailAppBar({
+    Key? key,
+    required this.isEditing,
+    required this.onEditToggle,
+    required this.onDelete,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: const Text('Task Details'),
+      actions: [
+        IconButton(
+          icon: Icon(isEditing ? Icons.save : Icons.edit),
+          onPressed: onEditToggle,
+        ),
+        IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: onDelete,
+        ),
+      ],
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
