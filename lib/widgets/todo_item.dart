@@ -5,6 +5,7 @@ import '../components/due_date.dart';
 import '../components/todo_text.dart';
 import '../models/todo.dart';
 import '../providers/todo_provider.dart';
+import '../screens/todo_detail_screen.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
@@ -46,6 +47,11 @@ class TodoItem extends StatelessWidget {
           isDarkMode: isDarkMode,
         ),
         onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => TodoDetailScreen(todoId: todo.id),
+            ),
+          );
         },
       ),
     );
