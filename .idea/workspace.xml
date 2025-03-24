@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5316b1a-14f9-4c7b-9b27-a64233a9efa0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/widgets/completion_checkbox.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/due_date_indicator.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/todo_container.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/todo_title.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/todo_list_creen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/todo_list_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_item.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +42,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "milenevi"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "git@github.com:milenevi/todo_app.git",
+    "accountId": "99a6345a-bc5f-4781-9c95-d123d3099f62"
+  }
+}]]></component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 8
 }]]></component>
