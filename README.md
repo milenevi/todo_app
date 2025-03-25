@@ -35,9 +35,7 @@ Para mais detalhes sobre a arquitetura, consulte o arquivo [docs/ARCHITECTURE.md
 - Flutter
 - Provider (Gerenciamento de Estado)
 - GetIt (Injeção de Dependência)
-- Dartz (Tratamento de Erros)
 - HTTP (Comunicação com API)
-- Equatable (Comparação de Objetos)
 
 ## Estrutura do Projeto
 
