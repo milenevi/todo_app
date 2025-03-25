@@ -10,36 +10,61 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5316b1a-14f9-4c7b-9b27-a64233a9efa0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/screens/about_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/about_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/todo_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/todo_detail_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/todo_list_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/todo_list_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/about/about_app_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/about/about_app_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/about/info_section.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/about/info_section.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_detail/detail_app_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_detail/detail_app_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_detail/loading_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_detail/loading_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_detail/status_row.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_detail/status_row.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_detail/task_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_detail/task_content.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_item/due_date_indicator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_item/due_date_indicator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_item/todo_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_item/todo_container.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/add_item_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/add_item_button.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/app_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/app_bar_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/app_title.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/app_title.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/divider_line.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/divider_line.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/loading_error_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/loading_error_handler.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/section_title.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/section_title.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/theme_toggle_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/theme_toggle_button.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/todo_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/todo_list/todo_list_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis_options.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/analysis_options.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/ARCHITECTURE.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/ARCHITECTURE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/controllers/todo_detail_controller.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/controllers/todo_detail_controller_factory.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/datasources/todo_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/datasources/todo_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/repositories/todo_repository_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/repositories/todo_repository_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/domain/models/todo.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/domain/models/todo.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/domain/repositories/todo_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/domain/repositories/todo_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/domain/usecases/todo_usecases.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/domain/usecases/todo_usecases.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/providers/theme_provider.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/providers/todo_provider.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/todo_repository.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/about_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/todo_detail_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/todo_list_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/services/todo_service.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/state/todo_operations.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/state/todo_state.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/theme/app_colors.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/theme/app_text_styles.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/theme/app_themes.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/theme/theme_provider.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/about/about_app_bar.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/about/info_section.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_detail/delete_confirmation_dialog.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_detail/detail_app_bar.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_detail/loading_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_detail/status_row.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_detail/task_content.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_item.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_item/completion_checkbox.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_item/due_date_indicator.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_item/todo_container.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_item/todo_title.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/add_item_button.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/add_todo_dialog.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/app_bar_widget.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/app_title.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/divider_line.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/loading_error_handler.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/section_title.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/theme_toggle_button.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/todo_list/todo_list_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/integration/app_flow_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/integration/app_flow_test.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/unit/todo_detail_controller_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_detail_controller_test.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/unit/todo_detail_controller_test.mocks.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_detail_controller_test.mocks.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/unit/todo_provider_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_provider_test.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/unit/todo_provider_test.mocks.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_provider_test.mocks.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/unit/todo_repository_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_repository_test.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/unit/todo_repository_test.mocks.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_repository_test.mocks.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/todo_service_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/todo_service_test.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/todo_service_test.mocks.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/test/widget/todo_detail_screen_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/widget/todo_detail_screen_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/widget/todo_list_screen_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/widget/todo_list_screen_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,21 +97,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "milenevi"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;milenevi&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:milenevi/todo_app.git",
-    "accountId": "99a6345a-bc5f-4781-9c95-d123d3099f62"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:milenevi/todo_app.git&quot;,
+    &quot;accountId&quot;: &quot;99a6345a-bc5f-4781-9c95-d123d3099f62&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2ujbVIFg12JeKC23e6yDk8M0fpo" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -103,23 +128,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Flutter.main.dart.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "develop",
-    "io.flutter.reload.alreadyRun": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/milenevilopes/development/smartfit/todo_app",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/milenevilopes/development/smartfit/todo_app&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib/widgets/todo_item" />
