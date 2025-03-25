@@ -224,11 +224,11 @@ class TodoProvider extends ChangeNotifier {
 
         if (todo.completed) {
           completedTodos.insert(0, todo);
+          _todos = [...incompleteTodos, ...completedTodos];
         } else {
           incompleteTodos.insert(0, todo);
+          _todos = [...incompleteTodos, ...completedTodos];
         }
-
-        _todos = [...incompleteTodos, ...completedTodos];
         _error = null;
         notifyListeners();
         return;
@@ -240,32 +240,33 @@ class TodoProvider extends ChangeNotifier {
 
       if (!statusChanged) {
         // Se apenas o texto foi modificado (status não mudou), mantém a tarefa na mesma posição exata
-        _todos[index] = todo;
+        final newTodos = List<TodoEntity>.from(_todos);
+        newTodos[index] = todo;
+        _todos = newTodos;
         _error = null;
         notifyListeners();
         return;
       }
 
       // Se o status de conclusão mudou, reorganiza a lista
-
+      final newTodos = List<TodoEntity>.from(_todos);
       // Remove a tarefa da posição atual
-      _todos.removeAt(index);
+      newTodos.removeAt(index);
 
       // Obtém as listas de tarefas incompletas e completas
-      final incompleteTodos = _todos.where((t) => !t.completed).toList();
-      final completedTodos = _todos.where((t) => t.completed).toList();
+      final incompleteTodos = newTodos.where((t) => !t.completed).toList();
+      final completedTodos = newTodos.where((t) => t.completed).toList();
 
       // Adiciona a tarefa na seção correta
       if (todo.completed) {
         // Se mudou para completada, coloca no início da seção de completadas
         completedTodos.insert(0, todo);
+        _todos = [...incompleteTodos, ...completedTodos];
       } else {
         // Se mudou para não completada, coloca no início da seção de não completadas
         incompleteTodos.insert(0, todo);
+        _todos = [...incompleteTodos, ...completedTodos];
       }
-
-      // Reconstrói a lista
-      _todos = [...incompleteTodos, ...completedTodos];
       _error = null;
       notifyListeners();
     } catch (e) {
