@@ -41,7 +41,7 @@ Para mais detalhes sobre a arquitetura, consulte o arquivo [docs/ARCHITECTURE.md
 
 ```
 lib/
-├── core/                 # Componentes compartilhados
+├── core/                # Componentes compartilhados
 │   ├── di/              # Injeção de dependência (GetIt)
 │   ├── error/           # Tratamento de erros
 │   └── network/         # Configuração de rede
