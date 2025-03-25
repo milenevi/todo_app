@@ -21,10 +21,13 @@ class _TodoListScreenState extends State<TodoListScreen> {
   @override
   void initState() {
     super.initState();
-    // Carregar tarefas após o primeiro frame
+    // Carregar tarefas apenas se o provider não estiver inicializado
     Future.microtask(() {
       if (mounted) {
-        context.read<TodoProvider>().fetchTodos();
+        final todoProvider = context.read<TodoProvider>();
+        if (!todoProvider.initialized) {
+          todoProvider.fetchTodos();
+        }
       }
     });
   }

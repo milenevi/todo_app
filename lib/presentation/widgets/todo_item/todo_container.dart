@@ -14,6 +14,14 @@ class TodoContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: isDarkMode ? const Color(0xFF384060) : Colors.white,
         borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          if (!isDarkMode)
+            BoxShadow(
+              color: Colors.black.withAlpha(13),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+        ],
       ),
       child: child,
     );

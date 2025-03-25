@@ -16,7 +16,7 @@ class DueDateIndicator extends StatelessWidget {
         Icon(
           Icons.calendar_today,
           size: 16,
-          color: isDarkMode ? Colors.white30 : Colors.black26,
+          color: isDarkMode ? Colors.white38 : Colors.black38,
         ),
         const SizedBox(width: 4),
         Text(
@@ -24,7 +24,6 @@ class DueDateIndicator extends StatelessWidget {
           style: TextStyle(
             color: isDarkMode ? Colors.white38 : Colors.black38,
             fontSize: 14,
-            decoration: todo.completed ? TextDecoration.lineThrough : null,
           ),
         ),
       ],

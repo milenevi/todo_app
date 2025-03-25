@@ -70,6 +70,59 @@ lib/
 - [x] Tratamento de erros
 - [x] Feedback visual de ações
 
+## Melhorias Futuras
+
+### Funcionalidades
+- Sincronização bidirecional com a API
+- Categorias para organizar tarefas
+- Datas de vencimento para tarefas
+- Prioridades (alta, média, baixa)
+- Subtarefas
+- Filtros avançados (por data, categoria, prioridade)
+- Busca de tarefas
+- Compartilhamento de tarefas
+- Modo offline completo
+- Backup e restauração de dados
+
+### UX/UI
+- Animações suaves nas transições
+- Gestos para ações rápidas (swipe para completar/excluir)
+- Modo de visualização em lista/grade
+- Temas personalizáveis
+- Suporte a diferentes tamanhos de tela
+- Modo de foco (Pomodoro)
+- Widgets para tela inicial
+- Notificações para tarefas pendentes
+
+### Performance
+- Cache local com Hive ou SQLite
+- Paginação na lista de tarefas
+- Otimização de imagens e recursos
+- Compressão de dados
+- Background sync
+- Lazy loading de recursos
+
+### Testes
+- Testes de integração
+- Testes de widget
+- Testes de performance
+- Testes de acessibilidade
+- Testes de usabilidade
+- Testes de segurança
+
+### Internacionalização
+- Suporte a múltiplos idiomas
+- Formatação de datas e números
+- RTL (Right-to-Left) support
+- Adaptação a diferentes fusos horários
+
+### Segurança
+- Autenticação de usuários
+- Criptografia de dados sensíveis
+- Proteção contra injeção de dados
+- Validação de entrada
+- Logs de auditoria
+
 ## Como Executar
 
 1. Clone o repositório:
@@ -109,4 +162,4 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## Contato
 
-Link do Projeto: [https://github.com/seu-usuario/todo_app](https://github.com/seu-usuario/todo_app)
+Link para contato: [Milene Vieira Lopes](https://github.com/milenevi)
