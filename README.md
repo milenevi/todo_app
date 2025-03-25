@@ -162,4 +162,4 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## Contato
 
-Link do Projeto: [https://github.com/milenevi](https://github.com/milenevi)
+[https://github.com/milenevi](Milene Vieira Lopes)
