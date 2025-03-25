@@ -13,12 +13,14 @@ class TodoAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: IconButton(
         icon: Icon(
           Icons.menu,
+          size: 28,
           color: Theme.of(context).brightness == Brightness.dark
               ? Colors.white54
               : Colors.black54,
         ),
+        padding: EdgeInsets.zero,
         onPressed: () {
-          AppRouter.navigateTo(context, AppRoute.about);
+          Navigator.pushNamed(context, AppRouter.aboutRoute);
         },
       ),
       title: const AppTitle(),

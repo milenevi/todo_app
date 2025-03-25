@@ -28,9 +28,8 @@ class TodoListView extends StatelessWidget {
                   arguments: todoId,
                 );
 
-                if (result == true) {
-                  await todoProvider.fetchTodos();
-                }
+                // Não recarregamos a lista após edição ou exclusão
+                // porque o provider já foi atualizado diretamente
               },
             ),
           ),
@@ -50,9 +49,8 @@ class TodoListView extends StatelessWidget {
                   arguments: todoId,
                 );
 
-                if (result == true) {
-                  await todoProvider.fetchTodos();
-                }
+                // Não recarregamos a lista após edição ou exclusão
+                // porque o provider já foi atualizado diretamente
               },
             ),
           ),
