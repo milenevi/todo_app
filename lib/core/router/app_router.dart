@@ -14,6 +14,7 @@ enum AppRoute {
 class AppRouter {
   static const String homeRoute = '/';
   static const String todoDetailRoute = '/todo-detail';
+  static const String aboutRoute = '/about';
 
   /// Navigate to a route
   static Future<dynamic> navigateTo(
@@ -23,18 +24,15 @@ class AppRouter {
   }) async {
     switch (route) {
       case AppRoute.home:
-        return await Navigator.pushReplacementNamed(context, '/');
+        return await Navigator.pushReplacementNamed(context, homeRoute);
       case AppRoute.todoDetails:
         return await Navigator.pushNamed(
           context,
-          '/todo-detail',
+          todoDetailRoute,
           arguments: arguments,
         );
       case AppRoute.about:
-        return await Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const AboutScreen()),
-        );
+        return await Navigator.pushNamed(context, aboutRoute);
     }
   }
 
@@ -47,6 +45,7 @@ class AppRouter {
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       homeRoute: (context) => const TodoListScreen(),
+      aboutRoute: (context) => const AboutScreen(),
     };
   }
 
