@@ -1,187 +1,114 @@
 # Todo App
 
-Um aplicativo de gerenciamento de tarefas desenvolvido com Flutter. Este aplicativo permite que você crie, visualize, edite e exclua tarefas, além de marcar tarefas como concluídas, seguindo boas práticas de arquitetura e Clean Code.
+Um aplicativo de lista de tarefas (Todo) desenvolvido com Flutter, seguindo os princípios da Clean Architecture e SOLID.
+
+## Características
+
+- ✨ Interface moderna e responsiva
+- 🌓 Suporte a tema claro/escuro
+- 🔄 Gerenciamento de estado com Provider
+- 🏗️ Arquitetura limpa e organizada
+- 🧪 Testes unitários e de integração
+- 🔒 Tratamento robusto de erros
+- 📱 Compatível com iOS e Android
+- 🔄 Operações locais para criar, editar e excluir tarefas
+
+## Arquitetura
+
+O projeto segue a Clean Architecture com as seguintes camadas:
+
+- **Presentation**: Interface do usuário e controladores (Provider)
+- **Domain**: Regras de negócio, entidades e operações locais
+- **Data**: Acesso e manipulação de dados
+- **Core**: Componentes compartilhados (GetIt)
+
+Para mais detalhes sobre a arquitetura, consulte o arquivo [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+## Operações Locais vs. Remotas
+
+- **Operações de Leitura**: Inicialmente carregadas da API, depois armazenadas localmente
+- **Operações de Escrita**: Realizadas apenas localmente (criar, atualizar, excluir)
+- **Sincronização**: Apenas em uma direção (API → Local) durante o carregamento inicial
 
 ## Tecnologias Utilizadas
 
 - Flutter
-- Provider para gerenciamento de estado
-- HTTP para comunicação com API
-- API DummyJSON para dados de demonstração
+- Provider (Gerenciamento de Estado)
+- GetIt (Injeção de Dependência)
+- Dartz (Tratamento de Erros)
+- HTTP (Comunicação com API)
+- Equatable (Comparação de Objetos)
+
+## Estrutura do Projeto
+
+```
+lib/
+├── core/                 # Componentes compartilhados
+│   ├── di/              # Injeção de dependência (GetIt)
+│   ├── error/           # Tratamento de erros
+│   └── network/         # Configuração de rede
+├── data/                # Camada de dados
+├── domain/              # Camada de domínio
+│   ├── entities/        # Entidades e interfaces
+│   ├── models/          # Implementações de entidades
+│   ├── repositories/    # Interfaces de repositório
+│   └── usecases/        # Regras de negócio e operações locais
+└── presentation/        # Camada de apresentação
+    ├── controllers/     # Controladores locais
+    ├── providers/       # Gerenciamento de estado global
+    ├── screens/         # Telas do aplicativo
+    ├── theme/           # Configuração de temas
+    └── widgets/         # Componentes reutilizáveis
+```
 
 ## Funcionalidades
 
-O aplicativo oferece as seguintes funcionalidades:
-
-- Lista de tarefas com status visual (concluídas/pendentes)
-- Adição de novas tarefas
-- Visualização detalhada de cada tarefa
-- Edição de tarefas existentes
-- Exclusão de tarefas
-- Alteração do status de conclusão das tarefas
-- Feedback visual com mensagens Snackbar
-
-## Arquitetura
-
-O projeto segue uma arquitetura em camadas bem definidas:
-
-### 1. Camada de Domínio (Domain Layer)
-Contém as regras de negócio centrais da aplicação.
-
-- `domain/models/` - Entidades do domínio
-    - `todo.dart` - Modelo que representa uma tarefa
-
-- `domain/usecases/` - Casos de uso da aplicação
-    - `todo_usecases.dart` - Operações disponíveis para tarefas
-
-### 2. Camada de Dados (Data Layer)
-Responsável pelo acesso e persistência de dados.
-
-- `repositories/` - Abstração do acesso aos dados
-    - `todo_repository.dart` - Repositório para operações com tarefas
-
-- `services/` - Implementação da comunicação com APIs
-    - `todo_service.dart` - Serviço para comunicação com a API de tarefas
-
-### 3. Camada de Apresentação (Presentation Layer)
-Interface do usuário e lógica de apresentação.
-
-- `controllers/` - Lógica de apresentação
-    - `todo_detail_controller.dart` - Controle da tela de detalhes
-    - `todo_detail_controller_factory.dart` - Factory para criação do controller
-
-- `providers/` - Gerenciamento de estado
-    - `todo_provider.dart` - Provider global para tarefas
-
-- `widgets/` - Componentes reutilizáveis
-    - `todo_item/` - Componentes do item de tarefa
-    - `todo_detail/` - Componentes da tela de detalhes
-    - `todo_list/` - Componentes da lista de tarefas
-
-- `screens/` - Telas do aplicativo
-    - `todo_list_screen.dart` - Tela principal com lista de tarefas
-    - `todo_detail_screen.dart` - Tela de detalhes da tarefa
-
-## Princípios e Padrões
-
-1. **Gerenciamento de Estado**
-    - Estado gerenciado através de classes imutáveis
-    - Provider para gerenciamento de estado global
-    - Controllers para gerenciamento de estado local das telas
-    - Estado é manipulado de forma imutável para evitar efeitos colaterais
-
-2. **Lógica de Negócios**
-    - Encapsulada em UseCases (`TodoUseCases`)
-    - Operações puras e testáveis
-    - Separação clara entre regras de negócio e apresentação
-    - Cada UseCase tem uma única responsabilidade
-
-3. **Acesso a Dados**
-    - Abstraído através de repositórios (`TodoRepository`)
-    - Serviços para comunicação com APIs (`TodoService`)
-    - Separação entre dados locais e remotos
-    - Interface clara para operações de dados
-
-4. **Interface do Usuário**
-    - Componentes reutilizáveis organizados por funcionalidade
-    - Widgets pequenos e com responsabilidade única
-    - Separação entre lógica de apresentação e estilos
-    - Composição de widgets para construir interfaces
-
-5. **Injeção de Dependência**
-    - Classes recebem dependências via construtor
-    - Factories para criação de objetos complexos
-    - Facilita testes e extensibilidade
-    - Desacopla implementações de abstrações
-
-6. **Clean Architecture**
-    - Camadas bem definidas (Domain, Data, Presentation)
-    - Dependências apontam para dentro
-    - Regras de negócio isoladas
-    - Fácil de testar e manter
-   
-## Melhorias Futuras
-
-- Implementação de autenticação
-- Armazenamento local com SQLite
-- Temas personalizáveis
-- Filtros e pesquisa de tarefas
-- Notificações para tarefas com prazos
-- Ampliação da cobertura de testes
-
-## Testes
-
-O projeto inclui diferentes tipos de testes:
-
-1. **Testes de Widget**
-    - Testam a interface do usuário
-    - Verificam interações e callbacks
-    - Isolam dependências usando mocks
-
-2. **Testes de Unidade**
-    - Testam a lógica de negócio
-    - Cobrem casos de sucesso e erro
-    - Usam mocks para isolar dependências
-
-3. **Testes de Integração**
-    - Testam fluxos completos da aplicação
-    - Verificam interações entre componentes
-    - Simulam ações do usuário em cenários reais
-    - Testam o ciclo completo: criação, edição e remoção de tarefas
-
-Para mais detalhes sobre os testes implementados, consulte o [README de Testes](test/README.md).
+- [x] Listar todas as tarefas
+- [x] Adicionar nova tarefa
+- [x] Marcar tarefa como concluída
+- [x] Editar tarefa existente
+- [x] Excluir tarefa
+- [x] Tema claro/escuro
+- [x] Tratamento de erros
+- [x] Feedback visual de ações
 
 ## Como Executar
 
-1. Clone o repositório
+1. Clone o repositório:
 ```bash
-git clone [URL_DO_REPOSITORIO]
+git clone https://github.com/seu-usuario/todo_app.git
 ```
 
-2. Instale as dependências
+2. Instale as dependências:
 ```bash
 flutter pub get
 ```
 
-3. Execute os testes
-```bash
-flutter test
-```
-
-4. Execute o aplicativo
+3. Execute o aplicativo:
 ```bash
 flutter run
 ```
 
-## Contribuindo
+## Testes
 
-1. Crie uma branch para sua feature
-```bash
-git checkout -b feature/nome-da-feature
-```
+Para executar os testes:
 
-2. Faça suas alterações seguindo os padrões do projeto
-
-3. Execute os testes
 ```bash
 flutter test
 ```
 
-4. Envie um Pull Request
+## Contribuição
 
-## Convenções de Código
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
 
-1. **Nomenclatura**
-    - Classes: PascalCase
-    - Métodos e variáveis: camelCase
-    - Constantes: SCREAMING_SNAKE_CASE
+## Licença
 
-2. **Organização**
-    - Um widget por arquivo
-    - Nomes de arquivos em snake_case
-    - Testes seguem a estrutura do código fonte
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-3. **Documentação**
-    - Documentar classes e métodos públicos
-    - Incluir exemplos em widgets complexos
-    - Manter o README atualizado
+## Contato
+
+Link do Projeto: [https://github.com/seu-usuario/todo_app](https://github.com/seu-usuario/todo_app)

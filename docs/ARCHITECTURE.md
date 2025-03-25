@@ -1,31 +1,30 @@
-
 # Arquitetura do Todo App
 
 Este documento detalha a arquitetura do aplicativo, explicando cada camada e suas responsabilidades.
 
 ## Visão Geral
 
-O aplicativo segue uma arquitetura em camadas que separa claramente as responsabilidades e promove a manutenibilidade e testabilidade do código.
+O aplicativo segue uma arquitetura em camadas baseada no Clean Architecture, com uma clara separação de responsabilidades e dependências direcionadas para o centro.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     Presentation Layer                       │
-├─────────────────┬─────────────────────┬───────────────────┤
-│     Screens     │     Controllers     │     Providers      │
-│                 │                     │                    │
-│  TodoListScreen │ TodoDetailController│   TodoProvider    │
-│ TodoDetailScreen│                     │                    │
-└─────────────────┴─────────────────────┴───────────────────┘
+│                     Presentation Layer                      │
+├─────────────────┬─────────────────────┬─────────────────────┤
+│     Screens     │     Controllers     │      Providers      │
+│                 │                     │                     │
+│  TodoListScreen │ TodoDetailController│     TodoProvider    │
+│ TodoDetailScreen│                     │                     │
+└─────────────────┴─────────────────────┴─────────────────────┘
                            ▲
                            │
                            │
 ┌─────────────────────────────────────────────────────────────┐
-│                       Domain Layer                           │
-├─────────────────┬─────────────────────┬───────────────────┤
-│     Models      │     Use Cases       │    Interfaces      │
-│                 │                     │                    │
-│      Todo       │   TodoUseCases     │  TodoRepository    │
-└─────────────────┴─────────────────────┴───────────────────┘
+│                       Domain Layer                          │
+├─────────────────┬─────────────────────┬─────────────────────┤
+│     Models      │     Use Cases       │     Interfaces      │
+│                 │                     │                     │
+│      Todo       │    TodoUseCases     │   TodoRepository    │
+└─────────────────┴─────────────────────┴─────────────────────┘
 ```
 
 ## Camadas
@@ -56,9 +55,10 @@ class TodoDetailScreen extends StatefulWidget {
 ```dart
 class TodoDetailController extends ChangeNotifier {
   final TodoUseCases _useCases;
+  final TodoProvider _todoProvider;
   final ValueNotifier<Todo?> _todo = ValueNotifier<Todo?>(null);
   
-  Future<bool> updateTodo(BuildContext context, Todo todo) async {
+  Future<bool> updateTodoItem(Todo todo) async {
     // Implementação
   }
 }
@@ -68,12 +68,17 @@ class TodoDetailController extends ChangeNotifier {
 - Gerencia estado global
 - Fornece acesso aos dados para widgets
 - Delega operações para casos de uso
+- Gerencia cache de dados local
 - Exemplo: `TodoProvider`
 
 ```dart
 class TodoProvider extends ChangeNotifier {
   final TodoUseCases _useCases;
   List<Todo> get completedTodos => _todos.where((t) => t.completed).toList();
+  
+  Future<void> fetchTodos() async {
+    // Busca dados da API ou usa dados locais
+  }
 }
 ```
 
@@ -104,15 +109,21 @@ class Todo {
 #### Use Cases
 - Implementa regras de negócio
 - Orquestra fluxo de dados
+- Gerencia dados locais
 - Independente de UI
 - Exemplo: `TodoUseCases`
 
 ```dart
 class TodoUseCases {
   final TodoRepository _repository;
+  final List<Todo> _localTodos = [];
   
-  Future<Todo> updateTodo(Todo todo) async {
-    // Implementação
+  Future<Todo?> updateTodo(Todo todo) async {
+    // Atualiza dados localmente
+  }
+  
+  List<TodoEntity> getLocalTodos() {
+    return _localTodos;
   }
 }
 ```
@@ -167,13 +178,17 @@ class TodoService {
 
 1. **UI Event** → Widget dispara evento
 2. **Controller/Provider** → Processa evento
-3. **Use Case** → Executa regra de negócio
-4. **Repository** → Acessa dados
-5. **Service** → Comunica com API
-6. **Repository** → Mapeia resposta
-7. **Use Case** → Valida dados
-8. **Controller/Provider** → Atualiza estado
-9. **UI** → Reflete mudanças
+3. **Use Case** → Executa regra de negócio (operação local)
+4. **Repository** → Acessa dados (apenas para leitura inicial)
+5. **Service** → Comunica com API (apenas para leitura inicial)
+6. **Controller/Provider** → Atualiza estado
+7. **UI** → Reflete mudanças
+
+### Operações Locais vs. Remotas
+
+- **Operações de Leitura**: Inicialmente carregadas da API, depois armazenadas localmente
+- **Operações de Escrita**: Realizadas apenas localmente (criar, atualizar, excluir)
+- **Sincronização**: Apenas em uma direção (API → Local) durante o carregamento inicial
 
 ## Testes
 
