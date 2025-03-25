@@ -163,3 +163,21 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ## Contato
 
 Link para contato: [Milene Vieira Lopes](https://github.com/milenevi)
+
+
+## Adicionar tarefa
+[add tarefa.webm](https://github.com/user-attachments/assets/406be915-c48d-409e-9169-7a290bcee070)
+
+## Editar tarefa
+[Editar tarefa.webm](https://github.com/user-attachments/assets/2dcb4db4-b0b6-4d1a-85ed-aa089a8a95c1)
+
+## Excluir tarefa
+[Excluir tarefa.webm](https://github.com/user-attachments/assets/ea48cced-8cdd-48d1-8f65-3d6c41a8b718)
+
+## Modo Dark
+[modo dark.webm](https://github.com/user-attachments/assets/2b997a89-1ef7-4af3-a082-36093b5f33d7)
+
+## Tela sobre
+[tela sobre.webm](https://github.com/user-attachments/assets/9978dbf9-3560-4bfa-ad7c-17c155cef250)
+
+
