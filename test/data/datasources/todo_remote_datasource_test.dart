@@ -120,9 +120,6 @@ class MockHttpClient implements http.Client {
 // Mock ApiClient para testes
 class MockApiClient extends ApiClient {
   final Map<String, Map<String, dynamic>> getResponses = {};
-  final Map<String, Map<String, dynamic>> postResponses = {};
-  final Map<String, Map<String, dynamic>> putResponses = {};
-  final Map<String, Map<String, dynamic>> deleteResponses = {};
   final Map<String, Failure> errors = {};
 
   MockApiClient()
@@ -130,18 +127,6 @@ class MockApiClient extends ApiClient {
 
   void mockGet(String endpoint, Map<String, dynamic> responseData) {
     getResponses[endpoint] = responseData;
-  }
-
-  void mockPost(String endpoint, Map<String, dynamic> responseData) {
-    postResponses[endpoint] = responseData;
-  }
-
-  void mockPut(String endpoint, Map<String, dynamic> responseData) {
-    putResponses[endpoint] = responseData;
-  }
-
-  void mockDelete(String endpoint, Map<String, dynamic> responseData) {
-    deleteResponses[endpoint] = responseData;
   }
 
   void mockError(String endpoint, Failure error) {
@@ -155,41 +140,6 @@ class MockApiClient extends ApiClient {
     }
     if (getResponses.containsKey(endpoint)) {
       return getResponses[endpoint]!;
-    }
-    throw const ServerFailure();
-  }
-
-  @override
-  Future<Map<String, dynamic>> post(String endpoint,
-      {required Map<String, dynamic> body}) async {
-    if (errors.containsKey(endpoint)) {
-      throw errors[endpoint]!;
-    }
-    if (postResponses.containsKey(endpoint)) {
-      return postResponses[endpoint]!;
-    }
-    throw const ServerFailure();
-  }
-
-  @override
-  Future<Map<String, dynamic>> put(String endpoint,
-      {required Map<String, dynamic> body}) async {
-    if (errors.containsKey(endpoint)) {
-      throw errors[endpoint]!;
-    }
-    if (putResponses.containsKey(endpoint)) {
-      return putResponses[endpoint]!;
-    }
-    throw const ServerFailure();
-  }
-
-  @override
-  Future<Map<String, dynamic>> delete(String endpoint) async {
-    if (errors.containsKey(endpoint)) {
-      throw errors[endpoint]!;
-    }
-    if (deleteResponses.containsKey(endpoint)) {
-      return deleteResponses[endpoint]!;
     }
     throw const ServerFailure();
   }
