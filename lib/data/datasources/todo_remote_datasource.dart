@@ -8,12 +8,12 @@ abstract class TodoRemoteDataSource {
   /// Get all todos from the API
   Future<List<TodoEntity>> getTodos();
 
-  /// Get a todo by ID - NOTA: Este método não é realmente usado pelo aplicativo
-  /// É mantido apenas para compatibilidade com os testes existentes
+  /// Get a todo by ID - NOTA: Este método não é utilizado na aplicação real.
+  /// Existe apenas para manter compatibilidade com a interface.
   Future<TodoEntity> getTodoById(int id);
 
-  /// Create a todo - NOTA: Este método não é realmente usado pelo aplicativo
-  /// É mantido apenas para compatibilidade com os testes existentes
+  /// Create a todo - NOTA: Este método não é utilizado na aplicação real.
+  /// Existe apenas para manter compatibilidade com a interface.
   Future<TodoEntity> createTodo(String title);
 }
 
@@ -38,34 +38,17 @@ class TodoRemoteDataSourceImpl implements TodoRemoteDataSource {
 
   @override
   Future<TodoEntity> getTodoById(int id) async {
-    // NOTA: Este método existe apenas para passar nos testes
-    // No aplicativo real, os todos são gerenciados localmente
-    try {
-      final response = await apiClient.get('${NetworkConfig.todoEndpoint}/$id');
-      return TodoModel.fromJson(response);
-    } catch (e) {
-      if (e is Failure) rethrow;
-      throw const ServerFailure();
-    }
+    // Este método não é usado na aplicação real e deveria lançar uma exceção
+    // em um ambiente de produção.
+    throw UnimplementedError(
+        'getTodoById não é implementado para uso em produção. Operações de TODOs são gerenciadas localmente.');
   }
 
   @override
   Future<TodoEntity> createTodo(String title) async {
-    // NOTA: Este método existe apenas para passar nos testes
-    // No aplicativo real, os todos são criados localmente
-    try {
-      final response = await apiClient.post(
-        NetworkConfig.todoEndpoint,
-        body: {
-          'todo': title,
-          'completed': false,
-          'userId': 1,
-        },
-      );
-      return TodoModel.fromJson(response);
-    } catch (e) {
-      if (e is Failure) rethrow;
-      throw const ServerFailure();
-    }
+    // Este método não é usado na aplicação real e deveria lançar uma exceção
+    // em um ambiente de produção.
+    throw UnimplementedError(
+        'createTodo não é implementado para uso em produção. Operações de TODOs são gerenciadas localmente.');
   }
 }

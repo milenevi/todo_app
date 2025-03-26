@@ -4,8 +4,12 @@ class NetworkConfig {
   static const int maxRetries = 3;
 
   // Endpoints
-  static const String todosEndpoint = '/todos';
-  static const String todoEndpoint = '/todos';
+  // A aplicação usa apenas um endpoint para carregar dados iniciais
+  static const String todosEndpoint =
+      '/todos'; // GET /todos para carregar a lista inicial
+
+  // Nota: Todas as operações de CRUD (criar, atualizar, excluir) são realizadas localmente
+  // sem qualquer comunicação com a API externa.
 
   // Headers
   static const Map<String, String> defaultHeaders = {
