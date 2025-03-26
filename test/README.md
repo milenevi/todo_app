@@ -1,91 +1,69 @@
-# Testes para o Todo App
+# Testes do Todo App
 
-Este documento descreve a estratégia de testes para o aplicativo Todo.
+Este diretório contém todos os testes automatizados da aplicação, organizados por camadas da arquitetura Clean.
 
 ## Estrutura de Testes
 
 ```
 test/
-├── unit/                  # Testes unitários
-│   ├── todo_repository_test.dart    # Testes do TodoRepository
-│   ├── todo_provider_test.dart      # Testes do TodoProvider
-│   ├── todo_service_test.dart       # Testes do TodoService
-│   └── todo_detail_controller_test.dart  # Testes do TodoDetailController
-│
-├── widget/                # Testes de widgets
-│   ├── todo_detail_screen_test.dart  # Stub de teste da tela de detalhes
-│   └── todo_list_screen_test.dart    # Stub de teste da tela de lista
-|
-└── integration/           # Testes de integração
-    └── app_flow_test.dart           # Teste de fluxo completo do app
+├── data/                 # Testes da camada de dados
+│   ├── datasources/      # Testes dos data sources (API)
+│   └── repositories/     # Testes das implementações de repositórios
+├── domain/               # Testes da camada de domínio
+│   ├── models/           # Testes dos modelos de dados
+│   └── usecases/         # Testes dos casos de uso
+├── integration/          # Testes de integração
+│   └── app/              # Fluxo completo de usuário
+└── presentation/         # Testes da camada de apresentação
+    ├── providers/        # Testes dos providers
+    └── screens/          # Testes dos widgets e telas
 ```
 
-## Tipos de Testes
+## Características dos Testes
 
-### Testes Unitários
+### Abordagem da Aplicação
 
-Testam unidades individuais de código (classes, funções, métodos) isoladamente.
+O Todo App utiliza uma estratégia específica:
+1. **Carregamento inicial**: Dados são carregados da API remota apenas uma vez
+2. **Operações CRUD**: Todas as operações de criação, atualização e exclusão são realizadas localmente
 
-- **TodoRepository**: Testa o repositório de dados, incluindo cache e tratamento de erros
-- **TodoProvider**: Testa a lógica de gerenciamento de estado e operações CRUD
-- **TodoService**: Testa as chamadas de API e tratamento de respostas/erros
-- **TodoDetailController**: Testa o controller da tela de detalhes
+### Testes de Data Sources
 
-### Testes de Widget
+- `todo_remote_datasource_test.dart`: Testa apenas o método `getTodos()`, pois é o único utilizado na aplicação real.
+- Os métodos `getTodoById()` e `createTodo()` não são testados pois são mantidos apenas para compatibilidade com a interface.
 
-Inclui stubs (esboços) de testes para os principais componentes de UI.
+### Testes de Repositórios
 
-- **TodoDetailScreen**: Stub de teste para a tela de detalhes
-- **TodoListScreen**: Stub de teste para a tela de lista
+- `todo_repository_test.dart`: Testa apenas a funcionalidade `getTodos()`, verificando a comunicação com o data source.
+- Os outros métodos do repositório são stubs, não implementados realmente, pois a lógica CRUD está na classe `TodoUseCases`.
+
+### Testes de Casos de Uso
+
+- `todo_usecases_test.dart`: Testa toda a lógica de negócio, incluindo operações CRUD locais.
+- Enfatiza o comportamento onde as operações são realizadas na lista local gerenciada por `TodoUseCases`.
 
 ### Testes de Integração
 
-Testam fluxos completos do aplicativo.
-
-- **App Flow**: Testa um fluxo completo: criar tarefa, marcar como concluída, visualizar detalhes e excluir
+- `app_flow_test.dart`: Testa o fluxo completo do usuário, desde adicionar uma tarefa até excluí-la.
+- Simula o comportamento completo do app com um mock de repositório.
 
 ## Executando os Testes
 
-### Executar todos os testes:
-
 ```bash
+# Executar todos os testes
 flutter test
+
+# Executar com cobertura
+flutter test --coverage
+
+# Executar testes específicos
+flutter test test/domain/usecases/todo_usecases_test.dart
 ```
 
-### Executar testes específicos:
+## Observações
 
-```bash
-# Executar testes unitários
-flutter test test/unit/
+As modificações realizadas nos arquivos de implementação foram feitas para clarificar a arquitetura real da aplicação:
 
-# Executar testes de widgets
-flutter test test/widget/
-
-# Executar testes de integração
-flutter test test/integration/
-
-# Executar um arquivo de teste específico
-flutter test test/unit/todo_repository_test.dart
-```
-
-## Dependências de Teste
-
-- **flutter_test**: Framework de teste do Flutter
-- **mockito**: Para criar mocks de classes
-- **build_runner**: Para gerar arquivos de mock
-
-Certifique-se de instalar as dependências de desenvolvimento necessárias:
-
-```yaml
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  mockito: ^5.4.0
-  build_runner: ^2.4.8
-```
-
-Execute o build_runner para gerar os arquivos de mock:
-
-```bash
-flutter pub run build_runner build --delete-conflicting-outputs
-```
+1. Os métodos do `TodoRemoteDataSource` que não são utilizados agora lançam `UnimplementedError`
+2. Os métodos do `TodoRepository` retornam falhas `NotImplementedFailure` para operações gerenciadas localmente
+3. A documentação reflete o comportamento real da aplicação: apenas carregar da API, modificar localmente

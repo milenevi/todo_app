@@ -120,9 +120,6 @@ class MockHttpClient implements http.Client {
 // Mock ApiClient para testes
 class MockApiClient extends ApiClient {
   final Map<String, Map<String, dynamic>> getResponses = {};
-  final Map<String, Map<String, dynamic>> postResponses = {};
-  final Map<String, Map<String, dynamic>> putResponses = {};
-  final Map<String, Map<String, dynamic>> deleteResponses = {};
   final Map<String, Failure> errors = {};
 
   MockApiClient()
@@ -130,18 +127,6 @@ class MockApiClient extends ApiClient {
 
   void mockGet(String endpoint, Map<String, dynamic> responseData) {
     getResponses[endpoint] = responseData;
-  }
-
-  void mockPost(String endpoint, Map<String, dynamic> responseData) {
-    postResponses[endpoint] = responseData;
-  }
-
-  void mockPut(String endpoint, Map<String, dynamic> responseData) {
-    putResponses[endpoint] = responseData;
-  }
-
-  void mockDelete(String endpoint, Map<String, dynamic> responseData) {
-    deleteResponses[endpoint] = responseData;
   }
 
   void mockError(String endpoint, Failure error) {
@@ -155,41 +140,6 @@ class MockApiClient extends ApiClient {
     }
     if (getResponses.containsKey(endpoint)) {
       return getResponses[endpoint]!;
-    }
-    throw const ServerFailure();
-  }
-
-  @override
-  Future<Map<String, dynamic>> post(String endpoint,
-      {required Map<String, dynamic> body}) async {
-    if (errors.containsKey(endpoint)) {
-      throw errors[endpoint]!;
-    }
-    if (postResponses.containsKey(endpoint)) {
-      return postResponses[endpoint]!;
-    }
-    throw const ServerFailure();
-  }
-
-  @override
-  Future<Map<String, dynamic>> put(String endpoint,
-      {required Map<String, dynamic> body}) async {
-    if (errors.containsKey(endpoint)) {
-      throw errors[endpoint]!;
-    }
-    if (putResponses.containsKey(endpoint)) {
-      return putResponses[endpoint]!;
-    }
-    throw const ServerFailure();
-  }
-
-  @override
-  Future<Map<String, dynamic>> delete(String endpoint) async {
-    if (errors.containsKey(endpoint)) {
-      throw errors[endpoint]!;
-    }
-    if (deleteResponses.containsKey(endpoint)) {
-      return deleteResponses[endpoint]!;
     }
     throw const ServerFailure();
   }
@@ -239,65 +189,9 @@ void main() {
       expect(() => dataSource.getTodos(), throwsA(isA<ServerFailure>()));
     });
 
-    test('getTodoById returns a todo when response is successful', () async {
-      // Mock data
-      final mockTodoJson = {
-        'id': 1,
-        'todo': 'Test Todo 1',
-        'completed': false,
-        'userId': 1,
-      };
-
-      // Setup the mock response
-      mockApiClient.mockGet('${NetworkConfig.todoEndpoint}/1', mockTodoJson);
-
-      // Call the method
-      final todo = await dataSource.getTodoById(1);
-
-      // Verify results
-      expect(todo.id, equals(1));
-      expect(todo.todo, equals('Test Todo 1'));
-      expect(todo.completed, isFalse);
-    });
-
-    test('getTodoById throws ServerFailure when API fails', () async {
-      // Setup the mock error
-      mockApiClient.mockError(
-          '${NetworkConfig.todoEndpoint}/999', const ServerFailure());
-
-      // Verify that calling the method throws ServerFailure
-      expect(() => dataSource.getTodoById(999), throwsA(isA<ServerFailure>()));
-    });
-
-    test('createTodo returns a new todo when response is successful', () async {
-      // Mock data
-      final mockResponse = {
-        'id': 101,
-        'todo': 'New Task',
-        'completed': false,
-        'userId': 1,
-      };
-
-      // Setup the mock response
-      mockApiClient.mockPost(NetworkConfig.todoEndpoint, mockResponse);
-
-      // Call the method
-      final todo = await dataSource.createTodo('New Task');
-
-      // Verify results
-      expect(todo.id, equals(101));
-      expect(todo.todo, equals('New Task'));
-      expect(todo.completed, isFalse);
-    });
-
-    test('createTodo throws ServerFailure when API fails', () async {
-      // Setup the mock error
-      mockApiClient.mockError(
-          NetworkConfig.todoEndpoint, const ServerFailure());
-
-      // Verify that calling the method throws ServerFailure
-      expect(() => dataSource.createTodo('New Task'),
-          throwsA(isA<ServerFailure>()));
-    });
+    // Nota: Os métodos getTodoById e createTodo não são utilizados na aplicação real.
+    // São mantidos apenas para compatibilidade com a interface e poderiam ser removidos
+    // ou modificados para lançar uma exceção de "não implementado" caso a aplicação
+    // evolua para utilizar essas operações remotamente no futuro.
   });
 }
