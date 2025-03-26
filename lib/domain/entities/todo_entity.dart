@@ -27,7 +27,6 @@ class TodoEntity {
     );
   }
 
-  // Implementação manual dos métodos de Equatable
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
