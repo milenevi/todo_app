@@ -1,8 +1,8 @@
 abstract class Failure {
-  final String message;
-  final String? code;
 
   const Failure({required this.message, this.code});
+  final String message;
+  final String? code;
 
   @override
   bool operator ==(Object other) =>
@@ -36,4 +36,10 @@ class NotFoundFailure extends Failure {
 class NotImplementedFailure extends Failure {
   const NotImplementedFailure({String? message})
       : super(message: message ?? 'Operação não implementada');
+}
+
+/// Falha de cache - Usada quando há erro no armazenamento local
+class CacheFailure extends Failure {
+  const CacheFailure({String? message})
+      : super(message: message ?? 'Erro no armazenamento local');
 }

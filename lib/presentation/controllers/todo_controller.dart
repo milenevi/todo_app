@@ -3,14 +3,14 @@ import '../../domain/entities/todo_entity.dart';
 import '../../domain/usecases/todo_usecases.dart';
 
 class TodoController extends ChangeNotifier {
+
+  TodoController({required TodoUseCases useCases}) : _useCases = useCases;
   final TodoUseCases _useCases;
 
   final ValueNotifier<List<TodoEntity>> _todos =
       ValueNotifier<List<TodoEntity>>([]);
   final ValueNotifier<bool> _isLoading = ValueNotifier<bool>(false);
   final ValueNotifier<String?> _error = ValueNotifier<String?>(null);
-
-  TodoController({required TodoUseCases useCases}) : _useCases = useCases;
 
   ValueNotifier<List<TodoEntity>> get todos => _todos;
   ValueNotifier<bool> get isLoading => _isLoading;

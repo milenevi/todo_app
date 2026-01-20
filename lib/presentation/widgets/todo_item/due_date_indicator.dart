@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../../../domain/entities/todo_entity.dart';
 
 class DueDateIndicator extends StatelessWidget {
-  final TodoEntity todo;
 
   const DueDateIndicator({super.key, required this.todo});
+  final TodoEntity todo;
 
   @override
   Widget build(BuildContext context) {

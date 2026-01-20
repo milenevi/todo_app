@@ -22,7 +22,7 @@ class TodoListView extends StatelessWidget {
               todo: todo,
               onToggleCompletion: () => todoProvider.toggleTodoCompletion(todo),
               onTodoSelected: (todoId) async {
-                final result = await AppRouter.navigateTo(
+                await AppRouter.navigateTo(
                   context,
                   AppRoute.todoDetails,
                   arguments: todoId,
@@ -43,7 +43,7 @@ class TodoListView extends StatelessWidget {
               todo: todo,
               onToggleCompletion: () => todoProvider.toggleTodoCompletion(todo),
               onTodoSelected: (todoId) async {
-                final result = await AppRouter.navigateTo(
+                await AppRouter.navigateTo(
                   context,
                   AppRoute.todoDetails,
                   arguments: todoId,

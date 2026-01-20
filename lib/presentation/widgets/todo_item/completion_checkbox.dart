@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import '../../../domain/entities/todo_entity.dart';
 
 class CompletionCheckbox extends StatelessWidget {
-  final TodoEntity todo;
-  final VoidCallback onTap;
 
   const CompletionCheckbox({
     super.key,
     required this.todo,
     required this.onTap,
   });
+  final TodoEntity todo;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {

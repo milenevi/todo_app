@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
 import 'package:todo_app/domain/entities/todo_entity.dart';
-import 'package:todo_app/domain/models/todo.dart';
-import 'package:todo_app/presentation/providers/todo_provider.dart';
 import 'package:todo_app/domain/usecases/todo_usecases.dart';
+import 'package:todo_app/presentation/providers/todo_provider.dart';
 
 // Mocks simples para testes
 class MockUseCases implements TodoUseCases {
@@ -13,17 +11,17 @@ class MockUseCases implements TodoUseCases {
 
   @override
   Future<TodoEntity?> getTodoById(int id) async =>
-      Todo(id: id, todo: 'Mock Todo', completed: false, userId: 1);
+      TodoEntity(id: id, todo: 'Mock Todo', completed: false, userId: 1);
 
   @override
   Future<TodoEntity?> createTodo(String title) async =>
-      Todo(id: 1, todo: title, completed: false, userId: 1);
+      TodoEntity(id: 1, todo: title, completed: false, userId: 1);
 
   @override
   Future<bool> deleteTodo(int id) async => true;
 
   @override
-  Future<TodoEntity?> toggleTodoCompletion(TodoEntity todo) async => Todo(
+  Future<TodoEntity?> toggleTodoCompletion(TodoEntity todo) async => TodoEntity(
       id: todo.id,
       todo: todo.todo,
       completed: !todo.completed,
@@ -34,13 +32,10 @@ class MockUseCases implements TodoUseCases {
 
   @override
   List<TodoEntity> getLocalTodos() => [];
-
-  @override
-  Future<void> dispose() async {}
 }
 
 class MockTodoProvider extends ChangeNotifier implements TodoProvider {
-  final Todo _mockTodo = Todo(
+  final TodoEntity _mockTodo = const TodoEntity(
     id: 1,
     todo: 'Test Todo',
     completed: false,
@@ -88,9 +83,6 @@ class MockTodoProvider extends ChangeNotifier implements TodoProvider {
 
   @override
   Future<void> updateTodo(TodoEntity todo) async {}
-
-  @override
-  void dispose() {}
 }
 
 void main() {

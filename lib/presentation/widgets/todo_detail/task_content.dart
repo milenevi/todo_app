@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../domain/entities/todo_entity.dart';
 
 class TaskContent extends StatelessWidget {
-  final TodoEntity todo;
-  final TextEditingController titleController;
-  final GlobalKey<FormState> formKey;
-  final Function(TodoEntity) onToggleComplete;
-  final VoidCallback onSave;
 
   const TaskContent({
     Key? key,
@@ -16,6 +11,11 @@ class TaskContent extends StatelessWidget {
     required this.onToggleComplete,
     required this.onSave,
   }) : super(key: key);
+  final TodoEntity todo;
+  final TextEditingController titleController;
+  final GlobalKey<FormState> formKey;
+  final Function(TodoEntity) onToggleComplete;
+  final VoidCallback onSave;
 
   @override
   Widget build(BuildContext context) {

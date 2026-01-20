@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class LoadingErrorHandler extends StatelessWidget {
-  final bool isLoading;
-  final String? errorMessage;
-  final Widget child;
 
   const LoadingErrorHandler({
     super.key,
@@ -11,6 +8,9 @@ class LoadingErrorHandler extends StatelessWidget {
     this.errorMessage,
     required this.child,
   });
+  final bool isLoading;
+  final String? errorMessage;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {

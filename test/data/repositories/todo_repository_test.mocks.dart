@@ -6,6 +6,7 @@
 import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:todo_app/data/datasources/todo_local_datasource.dart' as _i5;
 import 'package:todo_app/data/datasources/todo_remote_datasource.dart' as _i3;
 import 'package:todo_app/domain/entities/todo_entity.dart' as _i2;
 
@@ -66,4 +67,70 @@ class MockTodoRemoteDataSource extends _i1.Mock
             ),
           )
           as _i4.Future<_i2.TodoEntity>);
+}
+
+/// A class which mocks [TodoLocalDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTodoLocalDataSource extends _i1.Mock
+    implements _i5.TodoLocalDataSource {
+  MockTodoLocalDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<List<_i2.TodoEntity>> getTodos() =>
+      (super.noSuchMethod(
+            Invocation.method(#getTodos, []),
+            returnValue: _i4.Future<List<_i2.TodoEntity>>.value(
+              <_i2.TodoEntity>[],
+            ),
+          )
+          as _i4.Future<List<_i2.TodoEntity>>);
+
+  @override
+  _i4.Future<void> cacheTodos(List<_i2.TodoEntity>? todos) =>
+      (super.noSuchMethod(
+            Invocation.method(#cacheTodos, [todos]),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
+
+  @override
+  _i4.Future<_i2.TodoEntity> createTodo(_i2.TodoEntity? todo) =>
+      (super.noSuchMethod(
+            Invocation.method(#createTodo, [todo]),
+            returnValue: _i4.Future<_i2.TodoEntity>.value(
+              _FakeTodoEntity_0(this, Invocation.method(#createTodo, [todo])),
+            ),
+          )
+          as _i4.Future<_i2.TodoEntity>);
+
+  @override
+  _i4.Future<_i2.TodoEntity> updateTodo(_i2.TodoEntity? todo) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateTodo, [todo]),
+            returnValue: _i4.Future<_i2.TodoEntity>.value(
+              _FakeTodoEntity_0(this, Invocation.method(#updateTodo, [todo])),
+            ),
+          )
+          as _i4.Future<_i2.TodoEntity>);
+
+  @override
+  _i4.Future<void> deleteTodo(int? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteTodo, [id]),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
+
+  @override
+  _i4.Future<_i2.TodoEntity?> getTodoById(int? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#getTodoById, [id]),
+            returnValue: _i4.Future<_i2.TodoEntity?>.value(),
+          )
+          as _i4.Future<_i2.TodoEntity?>);
 }

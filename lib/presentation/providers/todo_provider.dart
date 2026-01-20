@@ -1,23 +1,21 @@
 import 'package:flutter/foundation.dart';
+
 import '../../domain/entities/todo_entity.dart';
 import '../../domain/usecases/todo_usecases.dart';
-import 'dart:math' as Math;
 
 /// Provider for Todo state management
 class TodoProvider extends ChangeNotifier {
-  final TodoUseCases _useCases;
-  List<TodoEntity> _todos = [];
-  bool _isLoading = false;
-  String? _error;
-  bool _initialized = false;
-  // Conjunto para armazenar IDs de tarefas excluídas
-  final Set<int> _deletedIds = {};
 
   /// Creates a new instance of TodoProvider
   TodoProvider({required TodoUseCases useCases}) : _useCases = useCases {
     // Inicializa dados ao criar o provider
     fetchTodos();
   }
+  final TodoUseCases _useCases;
+  List<TodoEntity> _todos = [];
+  bool _isLoading = false;
+  String? _error;
+  bool _initialized = false;
 
   /// Get all todos
   List<TodoEntity> get todos => _todos;
@@ -64,51 +62,13 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // Tenta carregar do repositório
-      final result = await _useCases.getTodos();
-
-      // Combina os resultados obtidos do repositório com os locais
-      final localTodos = _useCases.getLocalTodos();
-
-      if (result.isNotEmpty) {
-        // Use a combinação dos dois conjuntos de dados
-        final Map<int, TodoEntity> todoMap = {};
-
-        // Primeiro adiciona os locais
-        for (var todo in localTodos) {
-          // Pula tarefas que foram excluídas localmente
-          if (_deletedIds.contains(todo.id)) continue;
-          todoMap[todo.id] = todo;
-        }
-
-        // Depois adiciona os da API (não sobrescreve os locais com mesmo ID)
-        for (var todo in result) {
-          // Pula tarefas que foram excluídas localmente
-          if (_deletedIds.contains(todo.id)) continue;
-          if (!todoMap.containsKey(todo.id)) {
-            todoMap[todo.id] = todo;
-          }
-        }
-
-        _todos = todoMap.values.toList();
-      } else {
-        // Se não houver dados no repositório, usa os dados locais
-        // (filtrando os que foram excluídos)
-        _todos =
-            localTodos.where((todo) => !_deletedIds.contains(todo.id)).toList();
-      }
-
-      _sortTodosByCompletion(); // Garante a ordem correta após carregar
+      final todos = await _useCases.getTodos();
+      _todos = todos;
+      _sortTodosByCompletion();
       _error = null;
       _initialized = true;
     } catch (e) {
-      // Em caso de erro, usa os dados locais (filtrando os que foram excluídos)
-      _todos = _useCases
-          .getLocalTodos()
-          .where((todo) => !_deletedIds.contains(todo.id))
-          .toList();
-      _sortTodosByCompletion();
-      _error = null;
+      _error = e.toString();
       _initialized = true;
     } finally {
       _isLoading = false;
@@ -205,13 +165,6 @@ class TodoProvider extends ChangeNotifier {
   /// Update an existing todo
   Future<void> updateTodo(TodoEntity todo) async {
     try {
-      // Verifica se a tarefa foi excluída
-      if (_deletedIds.contains(todo.id)) {
-        _error = 'Tarefa não existe mais';
-        notifyListeners();
-        return;
-      }
-
       // Encontra a posição atual da tarefa na lista
       final index = _todos.indexWhere((t) => t.id == todo.id);
       final existsInList = index != -1;
@@ -278,9 +231,6 @@ class TodoProvider extends ChangeNotifier {
   /// Delete a todo
   Future<void> deleteTodo(int id) async {
     try {
-      // Registra o ID como excluído
-      _deletedIds.add(id);
-
       // Remove da lista de exibição imediatamente
       final existingIndex = _todos.indexWhere((todo) => todo.id == id);
       if (existingIndex != -1) {
@@ -288,7 +238,7 @@ class TodoProvider extends ChangeNotifier {
         notifyListeners(); // Notifica UI imediatamente
       }
 
-      // Depois remove do storage local
+      // Depois remove do storage local via UseCase
       await _useCases.deleteTodo(id);
       _error = null;
     } catch (e) {
@@ -297,8 +247,4 @@ class TodoProvider extends ChangeNotifier {
     }
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 }

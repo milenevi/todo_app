@@ -1,15 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todo_app/core/error/failures.dart';
 import 'package:todo_app/core/result/result.dart';
-import 'package:todo_app/domain/models/todo.dart';
+import 'package:todo_app/domain/entities/todo_entity.dart';
 import 'package:todo_app/domain/repositories/todo_repository.dart';
 import 'package:todo_app/domain/usecases/todo_usecases.dart';
-import 'package:todo_app/domain/entities/todo_entity.dart';
 import 'package:todo_app/presentation/providers/todo_provider.dart';
 
 // Mock implementation of TodoRepository for integration testing
 class MockTodoRepository implements TodoRepository {
-  List<Todo> _todos = [];
+  final List<TodoEntity> _todos = [];
   int _nextId = 1;
 
   @override
@@ -23,13 +22,13 @@ class MockTodoRepository implements TodoRepository {
       final todo = _todos.firstWhere((todo) => todo.id == id);
       return Result.success(todo);
     } catch (e) {
-      return Result.failure(ServerFailure());
+      return Result.failure(const ServerFailure());
     }
   }
 
   @override
   Future<Result<TodoEntity>> createTodo(String title) async {
-    final newTodo = Todo(
+    final newTodo = TodoEntity(
       id: _nextId++,
       todo: title,
       completed: false,
@@ -44,12 +43,12 @@ class MockTodoRepository implements TodoRepository {
     try {
       final index = _todos.indexWhere((t) => t.id == todo.id);
       if (index >= 0) {
-        _todos[index] = todo as Todo;
+        _todos[index] = todo;
         return Result.success(todo);
       }
-      return Result.failure(ServerFailure());
+      return Result.failure(const ServerFailure());
     } catch (e) {
-      return Result.failure(ServerFailure());
+      return Result.failure(const ServerFailure());
     }
   }
 
@@ -59,13 +58,8 @@ class MockTodoRepository implements TodoRepository {
       _todos.removeWhere((todo) => todo.id == id);
       return Result.success(true);
     } catch (e) {
-      return Result.failure(ServerFailure());
+      return Result.failure(const ServerFailure());
     }
-  }
-
-  @override
-  Future<void> dispose() async {
-    // No resources to dispose
   }
 }
 

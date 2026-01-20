@@ -8,13 +8,13 @@ import '../error/failures.dart';
 /// para carregar a lista inicial de tarefas. Todas as operações CRUD
 /// (criar, atualizar, excluir) são realizadas localmente.
 class ApiClient {
-  final http.Client client;
-  final String baseUrl;
 
   ApiClient({
     required this.client,
     required this.baseUrl,
   });
+  final http.Client client;
+  final String baseUrl;
 
   Future<Map<String, dynamic>> get(String path) async {
     try {

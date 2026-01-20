@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import '../../providers/todo_provider.dart';
 
 class StatusRow extends StatelessWidget {
-  final int todoId;
 
   const StatusRow({super.key, required this.todoId});
+  final int todoId;
 
   @override
   Widget build(BuildContext context) {
