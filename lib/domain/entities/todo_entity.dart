@@ -1,9 +1,5 @@
 /// TodoEntity represents a task in the application
 class TodoEntity {
-  final int id;
-  final String todo;
-  final bool completed;
-  final int userId;
 
   const TodoEntity({
     required this.id,
@@ -11,6 +7,10 @@ class TodoEntity {
     required this.completed,
     required this.userId,
   });
+  final int id;
+  final String todo;
+  final bool completed;
+  final int userId;
 
   /// Create a copy of this entity with some fields changed
   TodoEntity copyWith({

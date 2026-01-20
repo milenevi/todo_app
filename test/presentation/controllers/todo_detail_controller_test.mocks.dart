@@ -204,12 +204,6 @@ class MockTodoProvider extends _i1.Mock implements _i5.TodoProvider {
           as _i3.Future<void>);
 
   @override
-  void dispose() => super.noSuchMethod(
-    Invocation.method(#dispose, []),
-    returnValueForMissingStub: null,
-  );
-
-  @override
   void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
@@ -218,6 +212,12 @@ class MockTodoProvider extends _i1.Mock implements _i5.TodoProvider {
   @override
   void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
     returnValueForMissingStub: null,
   );
 

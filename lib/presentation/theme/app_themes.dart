@@ -3,36 +3,45 @@ import 'app_colors.dart';
 import 'app_text_styles.dart';
 
 class AppThemes {
-  static ThemeData getDarkTheme() {
-    return ThemeData.dark().copyWith(
-      scaffoldBackgroundColor: const Color(0xFF2D3248),
-      dialogBackgroundColor: const Color(0xFF2D3248),
-      colorScheme: const ColorScheme.dark(
-        primary: Colors.blue,
-        secondary: Colors.blue,
-        surface: Color(0xFF384060),
+  static ThemeData getLightTheme() {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: AppColors.primary,
+        brightness: Brightness.light,
+      ).copyWith(
+        surface: AppColors.lightBackground,
+        primary: AppColors.primary,
+        secondary: AppColors.lightSecondary,
       ),
+      textTheme: AppTextStyles.getLightTextTheme(),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      cardTheme: const CardTheme(
-        color: Color(0xFF384060),
-        elevation: 0,
-      ),
+      scaffoldBackgroundColor: Colors.white,
     );
   }
 
-  static ThemeData getLightTheme() {
-    return ThemeData.light().copyWith(
-      scaffoldBackgroundColor: Colors.white,
-      colorScheme: const ColorScheme.light(
-        primary: Colors.blue,
-        secondary: Colors.blue,
+  static ThemeData getDarkTheme() {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: AppColors.primary,
+        brightness: Brightness.dark,
+      ).copyWith(
+        surface: AppColors.darkBackground,
+        primary: AppColors.primary,
+        secondary: AppColors.darkSecondary,
       ),
+      textTheme: AppTextStyles.getDarkTextTheme(),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
+      ),
+      scaffoldBackgroundColor: AppColors.darkBackground,
+      cardTheme: const CardThemeData(
+        color: AppColors.darkSecondary,
       ),
     );
   }

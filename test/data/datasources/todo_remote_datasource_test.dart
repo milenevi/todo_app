@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:todo_app/core/network/api_client.dart';
-import 'package:todo_app/data/datasources/todo_remote_datasource.dart';
-import 'package:todo_app/core/network/network_config.dart';
 import 'package:todo_app/core/error/failures.dart';
+import 'package:todo_app/core/network/api_client.dart';
+import 'package:todo_app/core/network/network_config.dart';
+import 'package:todo_app/data/datasources/todo_remote_datasource.dart';
 
 // Cliente mock que implementa http.Client
 class MockHttpClient implements http.Client {
@@ -119,11 +120,11 @@ class MockHttpClient implements http.Client {
 
 // Mock ApiClient para testes
 class MockApiClient extends ApiClient {
-  final Map<String, Map<String, dynamic>> getResponses = {};
-  final Map<String, Failure> errors = {};
 
   MockApiClient()
       : super(client: http.Client(), baseUrl: NetworkConfig.baseUrl);
+  final Map<String, Map<String, dynamic>> getResponses = {};
+  final Map<String, Failure> errors = {};
 
   void mockGet(String endpoint, Map<String, dynamic> responseData) {
     getResponses[endpoint] = responseData;

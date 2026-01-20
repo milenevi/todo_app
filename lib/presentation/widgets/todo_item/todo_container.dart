@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class TodoContainer extends StatelessWidget {
-  final Widget child;
 
   const TodoContainer({super.key, required this.child});
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {

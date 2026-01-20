@@ -6,9 +6,6 @@ import 'todo_item/todo_container.dart';
 import 'todo_item/todo_title.dart';
 
 class TodoItem extends StatelessWidget {
-  final TodoEntity todo;
-  final VoidCallback onToggleCompletion;
-  final ValueChanged<int> onTodoSelected;
 
   const TodoItem({
     super.key,
@@ -16,6 +13,9 @@ class TodoItem extends StatelessWidget {
     required this.onToggleCompletion,
     required this.onTodoSelected,
   });
+  final TodoEntity todo;
+  final VoidCallback onToggleCompletion;
+  final ValueChanged<int> onTodoSelected;
 
   @override
   Widget build(BuildContext context) {

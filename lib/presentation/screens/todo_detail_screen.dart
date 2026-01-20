@@ -4,12 +4,12 @@ import '../controllers/todo_detail_controller_factory.dart';
 import '../widgets/todo_detail/task_content.dart';
 
 class TodoDetailScreen extends StatefulWidget {
-  final int todoId;
 
   const TodoDetailScreen({
     super.key,
     required this.todoId,
   });
+  final int todoId;
 
   @override
   State<TodoDetailScreen> createState() => _TodoDetailScreenState();

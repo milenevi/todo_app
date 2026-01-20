@@ -1,6 +1,15 @@
 import '../../domain/entities/todo_entity.dart';
 
 class TodoModel extends TodoEntity {
+
+  factory TodoModel.fromEntity(TodoEntity entity) {
+    return TodoModel(
+      id: entity.id,
+      todo: entity.todo,
+      completed: entity.completed,
+      userId: entity.userId,
+    );
+  }
   TodoModel({
     required super.id,
     required super.todo,
@@ -24,14 +33,5 @@ class TodoModel extends TodoEntity {
       'completed': completed,
       'userId': userId,
     };
-  }
-
-  factory TodoModel.fromEntity(TodoEntity entity) {
-    return TodoModel(
-      id: entity.id,
-      todo: entity.todo,
-      completed: entity.completed,
-      userId: entity.userId,
-    );
   }
 }

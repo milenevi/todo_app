@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../presentation/screens/todo_list_screen.dart';
-import '../../presentation/screens/todo_detail_screen.dart';
+
 import '../../presentation/screens/about_screen.dart';
+import '../../presentation/screens/todo_detail_screen.dart';
+import '../../presentation/screens/todo_list_screen.dart';
 
 enum AppRoute {
   home,

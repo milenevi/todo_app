@@ -5,18 +5,17 @@ import '../providers/todo_provider.dart';
 
 /// Controller for the Todo List screen
 class TodoListController {
+
+  /// Creates a new TodoListController
+  TodoListController({
+    required TodoProvider todoProvider,
+    required this.useCases,
+  }) : _todoProvider = todoProvider;
   final TodoProvider _todoProvider;
 
   /// UseCases are retained for potential direct use in the future
   @protected
   final TodoUseCases useCases;
-
-  /// Creates a new TodoListController
-  TodoListController({
-    required TodoProvider todoProvider,
-    required TodoUseCases useCases,
-  }) : _todoProvider = todoProvider,
-       useCases = useCases;
 
   /// Get all todos from the provider
   List<TodoEntity> get todos => _todoProvider.todos;

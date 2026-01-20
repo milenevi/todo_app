@@ -1,6 +1,6 @@
+import '../../core/error/failures.dart';
 import '../../core/network/api_client.dart';
 import '../../core/network/network_config.dart';
-import '../../core/error/failures.dart';
 import '../../domain/entities/todo_entity.dart';
 import '../models/todo_model.dart';
 
@@ -18,9 +18,9 @@ abstract class TodoRemoteDataSource {
 }
 
 class TodoRemoteDataSourceImpl implements TodoRemoteDataSource {
-  final ApiClient apiClient;
 
   TodoRemoteDataSourceImpl({required this.apiClient});
+  final ApiClient apiClient;
 
   @override
   Future<List<TodoEntity>> getTodos() async {

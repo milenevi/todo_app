@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+
+import '../../core/router/app_router.dart';
 import '../../domain/entities/todo_entity.dart';
 import '../../domain/usecases/todo_usecases.dart';
 import '../providers/todo_provider.dart';
-import '../../core/router/app_router.dart';
 import '../utils/ui_helpers.dart';
 import '../widgets/todo_detail/delete_confirmation_dialog.dart';
 
 /// Controller for the Todo Detail screen
 class TodoDetailController extends ChangeNotifier {
+
+  /// Creates a new TodoDetailController
+  TodoDetailController({
+    required TodoUseCases useCases,
+    required TodoProvider todoProvider,
+    required this.todoId,
+  })  : _useCases = useCases,
+        _todoProvider = todoProvider {
+    loadTodo(todoId);
+  }
   final TodoUseCases _useCases;
   final TodoProvider _todoProvider;
   final int todoId;
@@ -20,16 +31,6 @@ class TodoDetailController extends ChangeNotifier {
 
   /// Value notifier for the current todo
   final ValueNotifier<TodoEntity?> _todo = ValueNotifier<TodoEntity?>(null);
-
-  /// Creates a new TodoDetailController
-  TodoDetailController({
-    required TodoUseCases useCases,
-    required TodoProvider todoProvider,
-    required this.todoId,
-  })  : _useCases = useCases,
-        _todoProvider = todoProvider {
-    loadTodo(todoId);
-  }
 
   ValueNotifier<TodoEntity?> get todo => _todo;
   ValueNotifier<bool> get isLoading => _isLoading;
@@ -52,11 +53,10 @@ class TodoDetailController extends ChangeNotifier {
         return true;
       }
 
-      // Se não encontrou no provider, tenta buscar dos dados locais
-      final localTodos = _useCases.getLocalTodos();
-      final localTodo = localTodos.where((todo) => todo.id == id).firstOrNull;
-      if (localTodo != null) {
-        _todo.value = localTodo;
+      // Se não encontrou no provider, tenta buscar via usecase (que vai ao repositório)
+      final todoFromUseCase = await _useCases.getTodoById(id);
+      if (todoFromUseCase != null) {
+        _todo.value = todoFromUseCase;
         _error.value = null;
         _isLoading.value = false;
         notifyListeners();
@@ -92,12 +92,6 @@ class TodoDetailController extends ChangeNotifier {
         notifyListeners();
         return false;
       }
-
-      // Verifica se apenas o texto foi alterado ou se o status também mudou
-      final currentTodo = _todo.value;
-      final onlyTextChanged = currentTodo != null &&
-          currentTodo.completed == todo.completed &&
-          currentTodo.id == todo.id;
 
       // Atualiza o usecase para garantir persistência
       final updated = await _useCases.updateTodo(todo);
@@ -164,11 +158,13 @@ class TodoDetailController extends ChangeNotifier {
 
     final success = await saveTodo(title);
 
-    if (success && context.mounted) {
+    if (!context.mounted) return;
+
+    if (success) {
       // Retorna null em vez de true para não forçar recarregamento
       AppRouter.goBack(context, null);
       UIHelpers.showSuccess(context, 'Tarefa atualizada com sucesso!');
-    } else if (context.mounted && _error.value != null) {
+    } else if (_error.value != null) {
       UIHelpers.showError(context, _error.value!);
     }
   }
@@ -180,16 +176,18 @@ class TodoDetailController extends ChangeNotifier {
       builder: (context) => const DeleteConfirmationDialog(),
     );
 
-    if (confirmed == true && context.mounted) {
-      final success = await removeTodo();
+    if (confirmed != true || !context.mounted) return;
 
-      if (success) {
-        // Retorna false para indicar que a tarefa foi excluída e não deve recarregar a lista
-        AppRouter.goBack(context, false);
-        UIHelpers.showSuccess(context, 'Tarefa excluída com sucesso!');
-      } else if (context.mounted && _error.value != null) {
-        UIHelpers.showError(context, _error.value!);
-      }
+    final success = await removeTodo();
+
+    if (!context.mounted) return;
+
+    if (success) {
+      // Retorna false para indicar que a tarefa foi excluída e não deve recarregar a lista
+      AppRouter.goBack(context, false);
+      UIHelpers.showSuccess(context, 'Tarefa excluída com sucesso!');
+    } else if (_error.value != null) {
+      UIHelpers.showError(context, _error.value!);
     }
   }
 

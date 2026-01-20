@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class DetailAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool isEditing;
-  final VoidCallback onEditToggle;
-  final VoidCallback onDelete;
 
   const DetailAppBar({
     super.key,
@@ -11,6 +8,9 @@ class DetailAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.onEditToggle,
     required this.onDelete,
   });
+  final bool isEditing;
+  final VoidCallback onEditToggle;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {

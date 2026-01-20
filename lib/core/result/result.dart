@@ -3,14 +3,14 @@ import '../../core/error/failures.dart';
 /// Uma classe que encapsula um resultado que pode ser um sucesso ou um erro.
 /// Esta classe substitui o uso do Either do pacote dartz.
 class Result<T> {
-  final T? _data;
-  final Failure? _failure;
 
   /// Construtor privado para criar um resultado de sucesso
   const Result._success(this._data) : _failure = null;
 
   /// Construtor privado para criar um resultado de erro
   const Result._failure(this._failure) : _data = null;
+  final T? _data;
+  final Failure? _failure;
 
   /// Cria um resultado de sucesso com os dados fornecidos
   static Result<T> success<T>(T data) => Result<T>._success(data);

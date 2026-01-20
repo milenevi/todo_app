@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import '../../../domain/entities/todo_entity.dart';
 
 class TodoTitle extends StatelessWidget {
-  final TodoEntity todo;
 
   const TodoTitle({
     super.key,
     required this.todo,
   });
+  final TodoEntity todo;
 
   @override
   Widget build(BuildContext context) {

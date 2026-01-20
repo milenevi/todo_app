@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
 
 class AddItemButton extends StatelessWidget {
-  final VoidCallback onPressed;
 
   const AddItemButton({super.key, required this.onPressed});
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {

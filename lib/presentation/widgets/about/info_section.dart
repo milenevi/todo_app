@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class InfoSection extends StatelessWidget {
-  final String title;
-  final String content;
 
   const InfoSection({super.key, required this.title, required this.content});
+  final String title;
+  final String content;
 
   @override
   Widget build(BuildContext context) {
