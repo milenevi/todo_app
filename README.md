@@ -7,28 +7,30 @@ Um aplicativo de lista de tarefas (Todo) desenvolvido com Flutter, seguindo os p
 - ✨ Interface moderna e responsiva
 - 🌓 Suporte a tema claro/escuro
 - 🔄 Gerenciamento de estado com Provider
-- 🏗️ Arquitetura limpa e organizada
+- 🏗️ Arquitetura limpa e organizada (Clean Architecture)
 - 🧪 Testes unitários e de integração
 - 🔒 Tratamento robusto de erros
 - 📱 Compatível com iOS e Android
-- 🔄 Operações locais para criar, editar e excluir tarefas
+- 💾 Persistência em cache local (In-memory com suporte a expansão para DB)
 
 ## Arquitetura
 
-O projeto segue a Clean Architecture com as seguintes camadas:
+O projeto segue a Clean Architecture com uma clara separação de responsabilidades:
 
-- **Presentation**: Interface do usuário e controladores (Provider)
-- **Domain**: Regras de negócio, entidades e operações locais
-- **Data**: Acesso e manipulação de dados
-- **Core**: Componentes compartilhados (GetIt)
+- **Presentation**: Interface do usuário, Controllers (estado da tela) e Providers (estado global).
+- **Domain**: Entidades de negócio e Casos de Uso (Use Cases) **stateless**.
+- **Data**: Implementações de Repositórios e DataSources (Remote e Local). Coordena a sincronização de dados.
+- **Core**: Componentes compartilhados, injeção de dependência (GetIt) e configurações.
 
 Para mais detalhes sobre a arquitetura, consulte o arquivo [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Operações Locais vs. Remotas
 
-- **Operações de Leitura**: Inicialmente carregadas da API, depois armazenadas localmente
-- **Operações de Escrita**: Realizadas apenas localmente (criar, atualizar, excluir)
-- **Sincronização**: Apenas em uma direção (API → Local) durante o carregamento inicial
+O aplicativo utiliza o padrão **Repository** como única fonte de verdade:
+
+- **Operações de Leitura**: O Repositório tenta buscar dados da API e os armazena no `LocalDataSource`. Se a rede falhar, os dados locais são retornados.
+- **Operações de Escrita**: Atualmente persistidas no `LocalDataSource`, garantindo que as alterações do usuário sejam refletidas imediatamente na sessão, mesmo sem persistência em disco ou API.
+- **Sincronização**: O Repositório coordena a política de atualização entre a fonte remota e o cache local.
 
 ## Tecnologias Utilizadas
 
@@ -36,39 +38,43 @@ Para mais detalhes sobre a arquitetura, consulte o arquivo [docs/ARCHITECTURE.md
 - Provider (Gerenciamento de Estado)
 - GetIt (Injeção de Dependência)
 - HTTP (Comunicação com API)
+- Mockito (Mocks para Testes)
 
 ## Estrutura do Projeto
 
 ```
 lib/
-├── core/                 # Componentes compartilhados
+├── core/                 # Componentes compartilhados e utilitários
 │   ├── di/              # Injeção de dependência (GetIt)
-│   ├── error/           # Tratamento de erros
-│   └── network/         # Configuração de rede
-├── data/                # Camada de dados
-├── domain/              # Camada de domínio
-│   ├── entities/        # Entidades e interfaces
-│   ├── models/          # Implementações de entidades
-│   ├── repositories/    # Interfaces de repositório
-│   └── usecases/        # Regras de negócio e operações locais
-└── presentation/        # Camada de apresentação
-    ├── controllers/     # Controladores locais
-    ├── providers/       # Gerenciamento de estado global
-    ├── screens/         # Telas do aplicativo
-    ├── theme/           # Configuração de temas
+│   ├── error/           # Definições de falhas e exceções
+│   ├── network/         # Cliente API e configurações
+│   └── result/          # Wrapper para resultados (Success/Failure)
+├── data/                # Camada de dados (Implementações)
+│   ├── datasources/     # Fontes de dados (Local e Remote)
+│   ├── models/          # DTOs e mapeamento JSON
+│   └── repositories/    # Implementação dos contratos de repositório
+├── domain/              # Camada de domínio (Contratos e Regras)
+│   ├── entities/        # Entidades puras de negócio
+│   ├── repositories/    # Interfaces dos repositórios
+│   └── usecases/        # Casos de uso da aplicação (Stateless)
+└── presentation/        # Camada de apresentação (UI)
+    ├── controllers/     # Lógica e estado das telas
+    ├── providers/       # Gerenciamento de estado global da UI
+    ├── screens/         # Widgets de tela cheia
+    ├── theme/           # Definição de temas (Claro/Escuro)
     └── widgets/         # Componentes reutilizáveis
 ```
 
 ## Funcionalidades
 
-- [x] Listar todas as tarefas
+- [x] Listar todas as tarefas (API + Cache Local)
 - [x] Adicionar nova tarefa
 - [x] Marcar tarefa como concluída
 - [x] Editar tarefa existente
 - [x] Excluir tarefa
 - [x] Tema claro/escuro
-- [x] Tratamento de erros
-- [x] Feedback visual de ações
+- [x] Tratamento de erros de rede
+- [x] Feedback visual (Loading e Success/Error messages)
 
 ## Melhorias Futuras
 
@@ -81,21 +87,21 @@ lib/
 - Filtros avançados (por data, categoria, prioridade)
 - Busca de tarefas
 - Compartilhamento de tarefas
-- Modo offline completo
+- Modo offline completo (Offline-first)
 - Backup e restauração de dados
 
 ### UX/UI
-- Animações suaves nas transições
+- Animações suaves nas transições e microinterações
 - Gestos para ações rápidas (swipe para completar/excluir)
 - Modo de visualização em lista/grade
 - Temas personalizáveis
-- Suporte a diferentes tamanhos de tela
+- Suporte a diferentes tamanhos de tela (Responsividade)
 - Modo de foco (Pomodoro)
 - Widgets para tela inicial
 - Notificações para tarefas pendentes
 
 ### Performance
-- Cache local com Hive ou SQLite
+- Cache local persistente com Hive ou SQLite
 - Paginação na lista de tarefas
 - Otimização de imagens e recursos
 - Compressão de dados
@@ -103,24 +109,22 @@ lib/
 - Lazy loading de recursos
 
 ### Testes
-- Testes de integração
-- Testes de widget
+- Testes de widget e integração abrangentes
 - Testes de performance
 - Testes de acessibilidade
 - Testes de usabilidade
 - Testes de segurança
 
 ### Internacionalização
-- Suporte a múltiplos idiomas
-- Formatação de datas e números
-- RTL (Right-to-Left) support
+- Suporte a múltiplos idiomas (i18n)
+- Formatação de datas e números localizados
+- Suporte a RTL (Right-to-Left)
 - Adaptação a diferentes fusos horários
 
 ### Segurança
-- Autenticação de usuários
+- Autenticação de usuários (OAuth/Firebase)
 - Criptografia de dados sensíveis
-- Proteção contra injeção de dados
-- Validação de entrada
+- Proteção contra injeção de dados e validação rigorosa de entrada
 - Logs de auditoria
 
 ## Como Executar
@@ -135,14 +139,19 @@ git clone https://github.com/seu-usuario/todo_app.git
 flutter pub get
 ```
 
-3. Execute o aplicativo:
+3. Execute o build_runner (para mocks):
+```bash
+dart run build_runner build --delete-conflicting-outputs
+```
+
+4. Execute o aplicativo:
 ```bash
 flutter run
 ```
 
 ## Testes
 
-Para executar os testes:
+Para executar a suíte completa de testes (Unitários + Integração):
 
 ```bash
 flutter test
